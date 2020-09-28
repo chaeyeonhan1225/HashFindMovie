@@ -1,0 +1,83 @@
+<!-- eslint-disable -->
+<template>
+   <v-app>
+    <v-main>
+      <v-row>
+      <v-app-bar 
+            flat
+            color="white">
+            <v-spacer></v-spacer>
+            <h1 id="title">TodayMovie</h1>
+            <v-spacer></v-spacer>
+            <div style="margin-right: 15px" v-if="me !== null">
+              <span class="mark_pen-yellow">{{me.nick}}</span>
+              님 안녕하세요 !
+            </div>
+            <template v-slot:extension>
+              <v-tabs centered slider-color="blue">
+                <v-tab to="/">Home</v-tab>
+                <v-tab to="/login">{{menu2}}</v-tab>
+                <v-tab to="/profile">Profile</v-tab>
+              </v-tabs>  
+            </template>
+      </v-app-bar>
+      </v-row>
+      <v-row>
+        <v-col cols="12" md="2"/>
+        <v-col cols="12" md="8"> 
+          <router-view></router-view>
+        </v-col>
+        <v-col cols="12" md="2"/>
+      </v-row>
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: "App",
+
+  data: () => ({
+    flag: false,
+    menu2: "Sign In"
+  }),
+  created() {
+    return this.fetchUser();
+  },
+  computed: {
+    me() {
+      return this.$store.state.userStore.me;
+    }
+  },
+  methods: {
+    fetchUser() {
+      console.log("fetchUser 실행!");
+      return this.$store.dispatch("userStore/loadUser");
+    }
+  }
+};
+</script>
+
+<style>
+/* eslint-disable */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
+#title {
+  font-family: "Pacifico", cursive;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mark_pen-yellow {
+  background: linear-gradient(to top, #ffee58 50%, transparent 50%);
+}
+.mark_pen-orange {
+  background: linear-gradient(to top, #ffb74d 50%, transparent 50%);
+}
+.mark_pen-blue {
+  background: linear-gradient(to top, #80d8ff 50%, transparent 50%);
+}
+</style>
