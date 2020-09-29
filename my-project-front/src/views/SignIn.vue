@@ -11,10 +11,9 @@
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
             <v-text-field v-model="email" label="이메일" type="email" :rules="emailRules" required outlined />
             <v-text-field v-model="password" label="비밀번호" type="password" :rules="passwordRules" required outlined />
-            <v-row align="center" justify="end">
-                <v-btn color="indigo lighten-1" text x-large to="/signup">
-                SIGN UP
-              </v-btn>
+            <v-row align="center">
+              <span><a href="/signup">회원가입 하러 가기</a></span>
+              <v-spacer></v-spacer>
               <v-btn color="indigo lighten-1" type="submit" text x-large>
                 SUBMIT
               </v-btn>
@@ -68,5 +67,9 @@
   display: inline-block;
   margin-top: 10px;
   width: 30rem;
+}
+a {
+  font-size: 16px;
+  text-decoration: none;
 }
 </style>

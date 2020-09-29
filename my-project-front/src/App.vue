@@ -9,10 +9,14 @@
             <v-spacer></v-spacer>
             <h1 id="title">TodayMovie</h1>
             <v-spacer></v-spacer>
-            <div style="margin-right: 15px" v-if="me !== null">
+            <div style="display:inline-block;" v-if="me !== null">
               <span class="mark_pen-yellow">{{me.nick}}</span>
-              님 안녕하세요 !
-              <v-btn text @click="logout()">로그아웃</v-btn>
+            </div>
+            <div style="display:inline-block;" v-else>
+              <span><a href="/login">로그인</a></span>
+            </div>
+            <div style="display:inline-block;margin-left:10px;margin-right: 10px">
+              <v-avatar color="green" size="40px"><v-icon>mdi-account</v-icon></v-avatar>
             </div>
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
@@ -84,5 +88,8 @@ export default {
 }
 .mark_pen-blue {
   background: linear-gradient(to top, #80d8ff 50%, transparent 50%);
+}
+a {
+  text-decoration: none;
 }
 </style>

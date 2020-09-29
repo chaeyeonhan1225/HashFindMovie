@@ -3,7 +3,8 @@
   <v-container>
     <v-banner>
       <div style="text-align:center;padding:50px 120px">
-        <h2><span class="mark_pen">회원 정보</span>를 입력하세요</h2>
+        <h2 style="margin-bottom: 12px"><span class="mark_pen-blue">회원가입</span></h2>
+        <h3><span>회원 정보</span>를 입력하세요</h3>
         <div class="signup-form">
           <v-form ref="form" v-model="valid" @submit.prevent="onSubmitForm">
             <v-text-field v-model="email" label="이메일" type="email" :rules="emailRules" required outlined />
@@ -75,7 +76,7 @@
 <style scoped>
 .signup-form {
   display: inline-block;
-  margin-top: 50px;
+  margin-top: 45px;
   width: 30rem;
 }
 </style>

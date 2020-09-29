@@ -1,5 +1,6 @@
 const express = require('express');
 const db = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -36,6 +37,7 @@ router.get('/movie', async (req, res, next) => {
                     attributes: ['nick'],
                 }]
             }],
+            order: [['id','ASC'],]
         });
         return res.json(movies);
     } catch (err) {
@@ -43,7 +45,7 @@ router.get('/movie', async (req, res, next) => {
     }
 });
 
-router.post('/comment', async (req, res, next) => {
+router.post('/comment', isLoggedIn, async (req, res, next) => {
     try {
         const movie = await db.Movie.findOne({
             where: { id: req.body.movieId }

@@ -49,6 +49,7 @@ app.use('/',indexRouter);
 app.use('/auth',authRouter);
 app.use('/post',postRouter);
 
+
 app.listen('3001',()=>{
     console.log('3001포트에서 my-project 서버 실행중!');
 });
