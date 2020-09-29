@@ -1,5 +1,6 @@
 const express = require('express');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 const { User } = require('../models');
 
 const router = express.Router();
@@ -34,7 +35,8 @@ router.post('/login',async (req,res,next)=>{
             console.log(user);
             console.log(req.session);
             const fullUser = await User.findOne({
-                where: { id: user.id }
+                where: { id: user.id },
+                attributes: ['id','nick','info'],
             });
             res.json(fullUser);
         });
@@ -44,7 +46,8 @@ router.post('/login',async (req,res,next)=>{
 router.post('/signup',async (req,res,next)=>{
     console.log(req.body);
     try {
-        const { email, password, nickname } = req.body;
+        const { email, nickname } = req.body;
+        const hash = await bcrypt.hash(req.body.password,12);
         const exUser = await User.findOne({ where: { email: email } });
         if(exUser){
             return res.status(403).json({
@@ -56,7 +59,7 @@ router.post('/signup',async (req,res,next)=>{
         const newUser = await User.create({
             email: email,
             nick: nickname,
-            password: password,
+            password: hash,
         });
         console.log(newUser);
             

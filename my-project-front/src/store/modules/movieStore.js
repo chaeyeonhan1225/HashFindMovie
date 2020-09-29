@@ -56,7 +56,7 @@ const movieStore = {
     loadComments(state,payload) {
       console.log("payload",payload);
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
-      Vue.set(state.Movies[index],'Comments',payload.data);
+      Vue.set(state.Movies[index],'comments',payload.data);
     },
   },
   actions: {

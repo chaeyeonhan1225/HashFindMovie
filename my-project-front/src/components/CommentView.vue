@@ -9,12 +9,11 @@
         </v-form>
       </v-container>
     </v-card-text>
-        <div>{{movie[movieId]}}</div>
         <v-card-title>
             <h3>인기 한줄평</h3>
-            <span style="font-size: 14px;margin-left: 5px;">{{this.movie[this.movieId].comments.length}}</span>
+            <span style="font-size: 14px;margin-left: 5px;">{{this.movie[this.movieId-1].comments.length}}</span>
         </v-card-title>
-        <template v-for="(comment,index) in this.movie[this.movieId].comments">
+        <template v-for="(comment,index) in this.movie[this.movieId-1].comments">
             <v-container :key="index" style="padding: 5px 30px">
                 <div style="display:flex;margin-bottom: 8px">
                     <span>
@@ -63,7 +62,7 @@ export default {
             }).then((result)=>{
                 this.content = "";
                 console.log("댓글 등록 !!");
-                console.log(this.movie[this.movieId].comments);
+                // console.log(this.movie[this.movieId].comments);
                 // this.loadComments();
             }).catch((error)=>{
                 console.error(error);

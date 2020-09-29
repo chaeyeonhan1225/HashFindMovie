@@ -13,10 +13,12 @@ module.exports = (passport) => {
                     email
                 }
             });
+            
             if (exUser) {
                 console.log("exUser:", exUser);
                 // 비밀번호 비교
-                if (exUser.password === password) {
+                const result = await bcyrpt.compare(password,exUser.password);
+                if (result) {
                     done(null, exUser);
                 } else {
                     done(null, false, {

@@ -48,7 +48,7 @@
       <v-icon @click="dialog = false">mdi-close</v-icon>
     </v-card-title>
     
-    <CommentView :movieId="movie.id"></CommentView>
+    <CommentView :movieId="this.movie.id"></CommentView>
   </v-card>
     </v-dialog>
       </v-card-actions>
@@ -83,6 +83,7 @@ export default{
     },
     methods: {
       likeMovie() {
+        alert(this.movie.id);
         if(this.like === "mdi-heart-outline"){
           this.$store.dispatch('movieStore/likeMovie',{
             no: this.movie.id
