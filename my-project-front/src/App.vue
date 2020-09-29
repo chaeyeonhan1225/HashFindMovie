@@ -12,6 +12,7 @@
             <div style="margin-right: 15px" v-if="me !== null">
               <span class="mark_pen-yellow">{{me.nick}}</span>
               님 안녕하세요 !
+              <v-btn text @click="logout()">로그아웃</v-btn>
             </div>
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
@@ -53,6 +54,10 @@ export default {
     fetchUser() {
       console.log("fetchUser 실행!");
       return this.$store.dispatch("userStore/loadUser");
+    },
+    logout() {
+      console.log("로그 아웃");
+      this.$store.dispatch("userStore/logout");
     }
   }
 };

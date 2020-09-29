@@ -15,7 +15,7 @@ const userStore = {
         },
         changeUserInfo(state,payload){
             state.me.info = payload.info;
-        }
+        },
     },
     actions: {
         loadUser({ state,commit },){
@@ -71,6 +71,18 @@ const userStore = {
                 .catch((error)=>{
                     console.error(error);
                 })
+        },
+        logout({ commit }) {
+            axios.post('http://localhost:3001/auth/logout',{},{
+                withCredentials: true,
+            })
+            .then((result)=>{
+                console.log(result.data);
+                commit('setMe',null);
+            })
+            .catch((error)=>{
+                console.error(error);
+            });
         }
     }
 }

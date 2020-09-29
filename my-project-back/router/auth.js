@@ -6,9 +6,9 @@ const { User } = require('../models');
 const router = express.Router();
 
 router.get('/user',async (req,res,next)=>{
-    console.log('/user 실행!');
+    // console.log('/user 실행!');
     const user = req.user;
-    console.log(req.session);
+    // console.log(req.session);
     if(user){
         return res.json(user);
     } else {
@@ -16,6 +16,14 @@ router.get('/user',async (req,res,next)=>{
             errCode: 1,
             message: "유저가 로그인하지 않았습니다."
         });
+    }
+});
+
+router.post('/logout',(req,res)=>{
+    if(req.isAuthenticated()){
+        req.logout();
+        req.session.destroy();
+        return res.status(200).send('로그아웃 되었습니다.');
     }
 });
 
