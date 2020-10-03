@@ -16,6 +16,10 @@ module.exports = (sequelize,DataTypes) => {
         info: {
             type: DataTypes.STRING(150),
             allowNull: true,
+        },
+        color: {
+            type: DataTypes.STRING(250),
+            allowNull: false,
         }
     },{
         timestamps: true,
@@ -26,6 +30,7 @@ module.exports = (sequelize,DataTypes) => {
 
     User.associate = (db) => {
         db.User.hasMany(db.Comment);
+        db.User.belongsToMany(db.Movie,{ through: 'LikeMovie', as: 'Liked'});
     }
     return User;
 }

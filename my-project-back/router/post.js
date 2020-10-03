@@ -46,7 +46,10 @@ router.get('/movie', async (req, res, next) => {
 });
 
 router.post('/comment', isLoggedIn, async (req, res, next) => {
+    console.log("요청들어옴!");
+    console.log(req.body);
     try {
+        console.log(req.body);
         const movie = await db.Movie.findOne({
             where: { id: req.body.movieId }
         });
@@ -57,6 +60,14 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
                 movieId: movie.id,
                 content: req.body.content,
             });
+            const hashtags = req.body.content.match(/#[^\s#]+/g);
+            console.log(hashtags);
+            if(hashtags) {
+                const result = await Promise.all(hashtags.map(tag=> db.Hashtag.findOrCreate({
+                    where: { content: tag.slice(1).toLowerCase() },
+                })));
+                await movie.addHashtags(result.map(r=>r[0]));
+            }
             
             const fullComments = await db.Comment.findAll({
                 where: { movieId: movie.id },
@@ -68,6 +79,7 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
             });
             return res.json(fullComments);
         } else {
+            console.log(req.body);
             return res.status(401).json({
                 errorCode: 2,
                 message: "잘못된 접근입니다.",
@@ -105,6 +117,26 @@ router.get('/:id/comments', async (req, res, next) => {
             message: "잘못된 접근입니다.",
         });
     }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.post('/:id/like',async (req,res,next)=>{
+    try {
+        console.log(req.body);
+        const movie = await db.Movie.findOne({
+            where: { id: req.body.movieId }
+        });
+        if(movie) {
+            await movie.addLiker(req.user.id);
+            return res.json({ userId: req.user.id });
+        } else {
+            return res.status(404).json({
+                errorCode: 2,
+                message: "잘못된 접근입니다."
+            });
+        }
     } catch (error) {
         console.error(error);
     }

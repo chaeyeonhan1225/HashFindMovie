@@ -8,6 +8,7 @@ const sequelize = new Sequelize(config.database,config.username,config.password,
 db.User = require('./user')(sequelize,Sequelize);
 db.Comment = require('./comment')(sequelize,Sequelize);
 db.Movie = require('./movie')(sequelize,Sequelize);
+db.Hashtag = require('./hashtag')(sequelize,Sequelize);
 
 Object.keys(db).forEach(modelName=>{
     if(db[modelName].associate){

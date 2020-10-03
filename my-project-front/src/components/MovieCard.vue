@@ -42,12 +42,11 @@
         </v-btn>
       </template>
       <v-card>
-    <v-card-title>
+    <v-card-title style="margin-bottom:0px">
       <h3><span class="mark_pen-yellow">한줄 평</span>을 남겨주세요!</h3>
       <v-spacer></v-spacer>
       <v-icon @click="dialog = false">mdi-close</v-icon>
     </v-card-title>
-    
     <CommentView :movieId="this.movie.id"></CommentView>
   </v-card>
     </v-dialog>
@@ -83,10 +82,9 @@ export default{
     },
     methods: {
       likeMovie() {
-        alert(this.movie.id);
         if(this.like === "mdi-heart-outline"){
           this.$store.dispatch('movieStore/likeMovie',{
-            no: this.movie.id
+            movieId: this.movie.id
           }).then((result)=>{
              this.like = "mdi-heart";
           }).catch((err)=>{
@@ -95,7 +93,7 @@ export default{
         } else {
           if(confirm('좋아요 취소하시겠습니까?')) {
             this.$store.dispatch('movieStore/removeLike',{
-              no: this.movie.id
+              movieId : this.movie.id
             }).then((result) => {
               this.like = "mdi-heart-outline";
             }).catch((err)=>{

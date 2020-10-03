@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div>
-    <MovieCarousels />
+    <!--<MovieCarousels />-->
     <v-container style="margin-bottom: 10px;margin-top: 20px">
      <h1><span class="mark_pen-yellow">오늘의 영화</span></h1>
       <v-container v-if="movieInfo.length > 0">

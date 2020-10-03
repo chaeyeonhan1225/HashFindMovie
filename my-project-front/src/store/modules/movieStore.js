@@ -48,10 +48,10 @@ const movieStore = {
       state.Movies = payload;
     },
     likeMovie(state, payload) {
-      state.Movies[payload.no - 1].likes++;
+      
     },
     removeLike(state, payload) {
-      state.Movies[payload.no - 1].likes--;
+      
     },
     loadComments(state,payload) {
       console.log("payload",payload);
@@ -75,7 +75,16 @@ const movieStore = {
     likeMovie({
       commit
     }, payload) {
-      commit('likeMovie', payload);
+      axios.post(`http://localhost:3001/post/${payload.movieId}/like`,payload,{
+        withCredentials: true,
+      }).then((result)=>{
+        console.log("좋아요 성공!");
+        console.log(result.data);
+        commit('likeMovie', result.data);
+      }).catch((error)=>{
+        console.error(error);
+      })
+      
     },
     removeLike({
       commit

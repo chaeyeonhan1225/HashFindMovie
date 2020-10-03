@@ -2,9 +2,14 @@
 <template>
   <v-container>
     <span>
-      <v-icon>mdi-magnify</v-icon>
-      <v-text-field outlined rounded flat></v-text-field>
+      <v-text-field prepend-inner-icon="mdi-magnify" v-model="searchMessage" @click:clear="clearMessage()" clear-icon="mdi-close" clearable outlined rounded flat hide-details="true"></v-text-field>
     </span>
+    <div style="margin:8px 0px">
+      <span>검색 키워드</span>
+      <span v-for="(node) in getNodes" :key="node">
+        <v-chip color="green" style="margin: 0px 3px">{{node}}</v-chip>
+      </span>
+    </div>
     <today-movie></today-movie>
     <random-movie></random-movie>
   </v-container>
@@ -21,5 +26,24 @@ export default {
     TodayMovie,
     RandomMovie,
   },
+  data() {
+    return {
+      searchMessage: "",
+    }
+  },
+  computed: {
+    getNodes() {
+      if(this.searchMessage){
+        return this.searchMessage.split(" ");
+      } else {
+        return [];
+      }
+    }
+  },
+  methods: {
+    clearMessage() {
+      this.searchMessage = "";
+    }
+  }
 };
 </script>

@@ -9,6 +9,7 @@
             <v-spacer></v-spacer>
             <h1 id="title">TodayMovie</h1>
             <v-spacer></v-spacer>
+            <v-btn text @click="logout" v-if="me">로그아웃</v-btn>
             <div style="display:inline-block;" v-if="me !== null">
               <span class="mark_pen-yellow">{{me.nick}}</span>
             </div>

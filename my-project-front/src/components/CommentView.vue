@@ -3,8 +3,16 @@
     <div>
         <v-card-text>
       <v-container>
+        <span v-if="!me">
+          <v-icon color="red">mdi-alert-circle</v-icon>
+          로그인한 사용자만 이용 가능합니다.
+        </span>
+        <span v-else>
+          <v-icon color="orange">mdi-star</v-icon>
+          해시태그를 남겨보세요!
+        </span>  
         <v-form>
-          <v-textarea v-model="content" filled label="한줄 평을 남겨주세요!"></v-textarea>
+          <v-textarea :disabled="!me" :success="this.success" :success-messages="this.successMessage" v-model="content" filled label="한줄 평을 남겨주세요!"></v-textarea>
           <v-btn color="blue darken-1" text @click="addComment()" absolute right>제출</v-btn>
         </v-form>
       </v-container>
@@ -51,6 +59,8 @@ export default {
     data() {
         return {
             content: "",
+            successMessage: "",
+            success: false,
         }
     },
     methods: {
@@ -62,6 +72,8 @@ export default {
             }).then((result)=>{
                 this.content = "";
                 console.log("댓글 등록 !!");
+                this.success = true;
+                this.successMessage = "댓글이 정상적으로 등록되었습니다!";
                 // console.log(this.movie[this.movieId].comments);
                 // this.loadComments();
             }).catch((error)=>{
@@ -71,6 +83,9 @@ export default {
       }
     },
     computed: {
+        me() {
+            return this.$store.state.userStore.me;
+        },
         movie() {
             return this.$store.state.movieStore.Movies;
         }

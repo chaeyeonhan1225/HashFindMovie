@@ -16,6 +16,8 @@ module.exports = (sequelize,DataTypes) => {
 
     Movie.associate = (db) => {
         db.Movie.hasMany(db.Comment);
+        db.Movie.belongsToMany(db.Hashtag,{ through: 'MovieHashtag' });
+        db.Movie.belongsToMany(db.User,{ through: 'LikeMovie', as: 'Likers'});
     }
     return Movie;
 }
