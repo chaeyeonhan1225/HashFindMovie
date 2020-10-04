@@ -23,10 +23,15 @@
             </div>
         </v-row>
         <v-container>
-          <v-card>
+          <v-card outlined>
             <div style="padding:15px">
-              <h2>좋아요 누른 영화</h2>
+              <span>
+                <h2 style="display:inline">좋아요 누른 영화</h2>
+                <a href="/liked" style="margin-left: 10px">더보기</a>
+              </span>
+                <LikedPreview/>
               <h2>나의 한줄 평</h2>
+              <CommentsPreview/>
             </div>
         </v-card>
         </v-container>
@@ -36,47 +41,51 @@
 
 <script>
 /* eslint-disable */
-  export default {
-    data() {
-      return {
-        toggleOn: false,
-        toggleIcon: "mdi-pencil-outline",
-        valid: false,
-        myinfo: null,
-        inforules: [
-          v => !! v && v.length <= 140 || '140자 이내로 입력해야합니다.'
-        ],
+import LikedPreview from '../components/LikedPreview';
+import CommentsPreview from '../components/CommentsPreview';
+export default {
+  components: {
+    LikedPreview,
+    CommentsPreview,
+  },
+  data() {
+    return {
+      toggleOn: false,
+      toggleIcon: "mdi-pencil-outline",
+      valid: false,
+      myinfo: null,
+      inforules: [
+        v => !! v && v.length <= 140 || '140자 이내로 입력해야합니다.'
+      ],
+    }
+  },
+  methods: {
+    onToggle(){
+      this.toggleOn = !this.toggleOn;
+      if (this.toggleOn){
+        this.toggleIcon = "mdi-pencil"
+      } else {
+        this.toggleIcon = "mdi-pencil-outline"
       }
     },
-    methods: {
-      onToggle(){
-        this.toggleOn = !this.toggleOn;
-        if (this.toggleOn){
-          this.toggleIcon = "mdi-pencil"
-        } else {
-          this.toggleIcon = "mdi-pencil-outline"
-        }
-      },
-      onSubmitForm(){
-        if(this.$refs.form.validate()){
-          console.log(this.myinfo);
-          this.$store.dispatch('userStore/changeUserInfo',{
-            userInfo: this.myinfo
-          })
-          .then((result)=>{
-            this.redirect();
-          })
-          .catch((error)=>{
-
-          });
-
-        }
-      }
-    },
-    computed: {
-      me() {
-        return this.$store.state.userStore.me;
+    onSubmitForm(){
+      if(this.$refs.form.validate()){
+        console.log(this.myinfo);
+        this.$store.dispatch('userStore/changeUserInfo',{
+          userInfo: this.myinfo
+        })
+        .then((result)=>{
+          this.redirect();
+        })
+        .catch((error)=>{
+        });
       }
     }
+  },
+  computed: {
+    me() {
+      return this.$store.state.userStore.me;
+    }
   }
+}
 </script>

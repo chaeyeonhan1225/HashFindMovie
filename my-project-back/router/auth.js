@@ -2,6 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
+const db = require('../models');
 
 const router = express.Router();
 
@@ -105,6 +106,19 @@ router.patch('/userinfo',async (req,res,next)=>{
         return res.status(200).json({
             info: req.body.userInfo
         });
+    }
+});
+
+router.get('/comments', async (req,res,next)=>{
+    try {
+        const comments = await db.Comment.findAll({
+            where: { userId: req.user.id }
+        });
+        if(comments) {
+            return res.status(200).json(comments);
+        }
+    } catch (error) {
+        console.error(error);
     }
 });
 

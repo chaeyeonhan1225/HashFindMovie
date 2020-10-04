@@ -1,5 +1,5 @@
 const local = require('./localStrategy');
-const { User } = require('../models');
+const db = require('../models');
 
 module.exports = (passport) => {
     passport.serializeUser((user,done)=>{
@@ -11,7 +11,7 @@ module.exports = (passport) => {
     passport.deserializeUser(async(id,done)=>{
         console.log('deserializeUser 실행!');
         try {
-            const user = await User.findOne({
+            const user = await db.User.findOne({
                 where: { id },
                 attributes: ['id','email','nick','info'],
             });

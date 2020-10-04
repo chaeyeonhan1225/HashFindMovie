@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
@@ -35,11 +36,17 @@ const routes = [
       import(/* webpackChunkName: "proflie" */ "../views/Profile.vue")
   },
   {
+    path: "/liked",
+    name: "liked",
+    component: () => 
+      import(/* webpackChunkName: "liked" */ "../views/LikedMovies.vue")
+  },
+  {
     path: '/*',
     name: "Error",
     component: () =>
-    import(/* webpackChunkName: "proflie" */ "../views/Error.vue")
-  }
+    import(/* webpackChunkName: "error" */ "../views/Error.vue")
+  },
 ];
 
 const router = new VueRouter({

@@ -5,7 +5,7 @@
       <v-container>
         <span v-if="!me">
           <v-icon color="red">mdi-alert-circle</v-icon>
-          로그인한 사용자만 이용 가능합니다.
+          로그인한 사용자만 댓글 작성 가능합니다.
         </span>
         <span v-else>
           <v-icon color="orange">mdi-star</v-icon>
@@ -13,7 +13,7 @@
         </span>  
         <v-form>
           <v-textarea :disabled="!me" :success="this.success" :success-messages="this.successMessage" v-model="content" filled label="한줄 평을 남겨주세요!"></v-textarea>
-          <v-btn color="blue darken-1" text @click="addComment()" absolute right>제출</v-btn>
+          <v-btn color="blue darken-1" text @click="addComment()" absolute right>댓글 등록</v-btn>
         </v-form>
       </v-container>
     </v-card-text>

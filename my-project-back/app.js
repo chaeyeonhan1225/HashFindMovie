@@ -14,7 +14,7 @@ const postRouter = require('./router/post');
 require('dotenv').config();
 
 const app = express();
-sequelize.sync({  });
+sequelize.sync({ force: true });
 passportConfig(passport);
 
 app.use(cors({
