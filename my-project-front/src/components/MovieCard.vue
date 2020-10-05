@@ -27,7 +27,7 @@
       <v-card-actions
         style="margin-right: 12px"
        >
-        좋아요 누른 횟수
+        {{liked}}
         <v-btn icon color="pink" @click="likeMovie()">
           <v-icon>{{like}}</v-icon>
         </v-btn> 
@@ -54,6 +54,7 @@
     </v-row>
     
   </v-card>
+    <v-alert dense outlined type="error" class="mt-2"  :value="this.alert">로그인해주세요!</v-alert> 
   </div>
 </template>
 
@@ -78,10 +79,15 @@ export default{
         content: this.movie.content,
         hashtag : "",
         focusTag: "blue",
+        alert: false,
       }
     },
     methods: {
       likeMovie() {
+        if(!this.me) {  // 로그인 안되있으면 못함 !
+          if(!this.alert) this.alert = true;
+          return;
+        }
         if(this.like === "mdi-heart-outline"){
           this.$store.dispatch('movieStore/likeMovie',{
             movieId: this.movie.id
@@ -104,6 +110,12 @@ export default{
       },
     },
     computed: {
+      me() {
+        return this.$store.state.userStore.me;
+      },
+      liked() {
+        
+      },
       mcontent() {
         if(this.movie.content.length > 160){
           return this.movie.content.slice(0,160)+"...";

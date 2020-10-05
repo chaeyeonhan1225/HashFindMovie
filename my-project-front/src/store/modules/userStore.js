@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
+import Vue from 'vue';
 
 const userStore = {
     namespaced: true,
@@ -18,6 +19,9 @@ const userStore = {
         },
         loadComments(state,payload) {
             state.me.comments = payload;
+        },
+        loadLiked(state,payload) {
+            Vue.set(state.me,'likedMovies',payload);
         }
     },
     actions: {
@@ -86,6 +90,17 @@ const userStore = {
             .catch((error)=>{
                 console.error(error);
             });
+        },
+        loadLiked({ commit }) {
+            axios.get('http://localhost:3001/profile/movie',{
+                withCredentials: true,
+            }).then((result)=>{
+                commit('loadLiked',result.data);
+                console.log(result.data);
+                
+            }).catch((error)=>{
+                console.error(error);
+            })
         },
         loadComments({ commit }) {
             axios.get('http://localhost:3001/auth/comments',{

@@ -17,6 +17,14 @@ router.get('/', async (req, res, next) => {
             title: "악마는 프라다를 입는다",
             movieCd: "12312",
         });
+        await db.Movie.create({
+            title: "노팅힐",
+            movieCd: "12315",
+        });
+        await db.Movie.create({
+            title: "인셉션",
+            movieCd: "12323",
+        });
         return res.status(200).json({
             message: "db생성 성공!",
         });
@@ -36,6 +44,10 @@ router.get('/movie', async (req, res, next) => {
                     model: db.User,
                     attributes: ['nick'],
                 }]
+            },{
+                model: db.User,
+                as: 'Likers',
+                attributes: ['id'],
             }],
             order: [['id','ASC'],]
         });

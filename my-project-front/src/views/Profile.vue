@@ -31,7 +31,7 @@
               </span>
                 <LikedPreview/>
               <h2 style="display:inline">나의 한줄 평</h2>
-              <span style="margin-left:5px">{{me.comments.length}}</span>
+              <span style="margin-left:5px" v-if="me.comments">{{me.comments.length}}</span>
               <span style="float:right"><a href="profile/comments">댓글 더보기</a></span>
               <CommentsPreview/>
             </div>

@@ -9,10 +9,10 @@
             <MovieCard :movie="movieInfo[0]"></MovieCard>
           </v-col>
           <v-col cols="12" md="4">
-            <MovieCard :movie="movieInfo[1]"></MovieCard>
+            <MovieCard :movie="movieInfo[3]"></MovieCard>
           </v-col>
           <v-col cols="12" md="4">
-            <MovieCard :movie="movieInfo[2]"></MovieCard>
+            <MovieCard :movie="movieInfo[4]"></MovieCard>
           </v-col>
         </v-row>
       </v-container>

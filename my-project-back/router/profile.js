@@ -3,7 +3,7 @@ const router = express.Router();
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const db = require('../models');
 
-router.get('/likedMovie', async (req,res,next)=>{
+router.get('/movie', async (req,res,next)=>{
     try {
         console.log(req.user);
         if(req.user){

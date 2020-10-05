@@ -7,7 +7,7 @@
     <div style="margin:8px 0px">
       <span>검색 키워드</span>
       <span v-for="(node) in getNodes" :key="node">
-        <v-chip color="green" style="margin: 0px 3px">{{node}}</v-chip>
+        <v-chip color="green" small class="mx-1">{{node}}</v-chip>
       </span>
     </div>
     <today-movie></today-movie>
