@@ -10,6 +10,7 @@ const passportConfig = require('./passport');
 const indexRouter = require('./router');
 const authRouter = require('./router/auth');
 const postRouter = require('./router/post');
+const profileRouter = require('./router/profile');
 
 require('dotenv').config();
 
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use('/',indexRouter);
 app.use('/auth',authRouter);
 app.use('/post',postRouter);
+app.use('/profile',profileRouter);
 
 
 app.listen('3001',()=>{
