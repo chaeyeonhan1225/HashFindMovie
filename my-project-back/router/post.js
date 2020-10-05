@@ -10,11 +10,11 @@ router.get('/', async (req, res, next) => {
             movieCd: "12341",
         });
         await db.Movie.create({
-            title: "알라딘",
+            title: "인터스텔라",
             movieCd: "12124",
         });
         await db.Movie.create({
-            title: "알라딘",
+            title: "악마는 프라다를 입는다",
             movieCd: "12312",
         });
         return res.status(200).json({

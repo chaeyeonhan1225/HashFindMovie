@@ -30,7 +30,9 @@
                 <a href="/liked" style="margin-left: 10px">더보기</a>
               </span>
                 <LikedPreview/>
-              <h2>나의 한줄 평</h2>
+              <h2 style="display:inline">나의 한줄 평</h2>
+              <span style="margin-left:5px">{{me.comments.length}}</span>
+              <span style="float:right"><a href="profile/comments">댓글 더보기</a></span>
               <CommentsPreview/>
             </div>
         </v-card>
@@ -48,6 +50,9 @@ export default {
     LikedPreview,
     CommentsPreview,
   },
+  created() {
+    return this.loadComments();
+  },
   data() {
     return {
       toggleOn: false,
@@ -60,6 +65,14 @@ export default {
     }
   },
   methods: {
+    loadComments() {
+      this.$store.dispatch('userStore/loadComments').
+        then((result) => {
+          console.log("댓글 불러오기 성공!");
+        }).catch((error)=>{
+          console.log("댓글 불러오기 실패!");
+        });
+    },
     onToggle(){
       this.toggleOn = !this.toggleOn;
       if (this.toggleOn){

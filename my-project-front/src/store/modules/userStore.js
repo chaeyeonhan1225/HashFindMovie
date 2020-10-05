@@ -16,6 +16,9 @@ const userStore = {
         changeUserInfo(state,payload){
             state.me.info = payload.info;
         },
+        loadComments(state,payload) {
+            state.me.comments = payload;
+        }
     },
     actions: {
         loadUser({ state,commit },){
@@ -83,7 +86,19 @@ const userStore = {
             .catch((error)=>{
                 console.error(error);
             });
-        }
+        },
+        loadComments({ commit }) {
+            axios.get('http://localhost:3001/auth/comments',{
+                withCredentials: true,
+            })
+            .then((result) => {
+                commit('loadComments',result.data);
+                console.log(result.data);
+            })
+            .catch((error)=>{
+                console.error(error);
+            })
+        },
     }
 }
 

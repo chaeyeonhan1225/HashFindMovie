@@ -46,6 +46,13 @@ router.post('/login',async (req,res,next)=>{
             const fullUser = await User.findOne({
                 where: { id: user.id },
                 attributes: ['id','nick','info'],
+                include: [{
+                    model: db.Comment,
+                    include: [{
+                        model: db.Movie,
+                        attributes: ['id','title'],
+                    }],
+                }],
             });
             res.json(fullUser);
         });
@@ -74,7 +81,7 @@ router.post('/signup',async (req,res,next)=>{
             
         passport.authenticate('local',(err,user,info)=>{
             if(err) {
-                console.erroer(err);
+                console.error(err);
                 return next(err);
             }
             if(info) {
@@ -85,7 +92,18 @@ router.post('/signup',async (req,res,next)=>{
                     console.error(err);
                     return next(err);
                 }
-                return res.json(user);
+                const fullUser = await User.findOne({
+                    where: { id: user.id },
+                    attributes: ['id','nick','info'],
+                    include: [{
+                        model: db.Comment,
+                        include: [{
+                            model: db.Movie,
+                            attributes: ['id','title'],
+                        }],
+                    }],
+                });
+                res.json(fullUser);
             });
         })(req,res,next);        
     } catch(err) {
@@ -112,7 +130,13 @@ router.patch('/userinfo',async (req,res,next)=>{
 router.get('/comments', async (req,res,next)=>{
     try {
         const comments = await db.Comment.findAll({
-            where: { userId: req.user.id }
+            where: { userId: req.user.id },
+            attributes: ['id','content', 'createdAt'],
+            include: [{
+                model: db.Movie,
+                attributes: ['id','title']
+            }],
+            order: [['updatedAt','DESC']],
         });
         if(comments) {
             return res.status(200).json(comments);
