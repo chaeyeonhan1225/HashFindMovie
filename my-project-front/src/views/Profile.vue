@@ -1,16 +1,15 @@
 <!-- eslint-disable -->
 <template>
-  <v-container>
-   
+  <v-container v-if="me">
       <v-container>
         <v-row>
             <div style="margin-right:20px">
-              <v-avatar :color="me.color" width="100px" height="100px">
+              <v-avatar :color="me ? me.color : 'indigo'" width="100px" height="100px">
                 <v-icon dark x-large>mdi-account</v-icon>
               </v-avatar>
             </div>
             <div v-if="me" style="min-width: 500px">
-              <h1><span class="mark_pen-yellow" v-if="me!==null">{{ me.nick }}</span></h1>
+              <h1><span class="mark_pen-yellow" v-if="me!==null">{{ me.nick }}</span>님</h1>
               <h3 style="display:inline;margin-right:5px" v-if="me.info===null">한줄 소개를 작성해주세요!</h3>
               <h3 style="display:inline;margin-right:5px" v-else>{{me.info}}</h3>
               <v-icon style="bottom: 2px" color="gray" @click="onToggle()">{{toggleIcon}}</v-icon>
@@ -29,11 +28,11 @@
                 <h2 style="display:inline">좋아요 누른 영화</h2>
                 <a href="/liked" style="margin-left: 10px">더보기</a>
               </span>
-                <LikedPreview/>
+                <LikedPreview :liked="this.liked"/>
               <h2 style="display:inline">나의 한줄 평</h2>
               <span style="margin-left:5px" v-if="me.comments">{{me.comments.length}}</span>
               <span style="float:right"><a href="profile/comments">댓글 더보기</a></span>
-              <CommentsPreview/>
+              <CommentsPreview :comments="me.comments"/>
             </div>
         </v-card>
         </v-container>
@@ -51,12 +50,16 @@ export default {
     CommentsPreview,
   },
   created() {
-    return this.loadComments();
+    return Promise.all([
+      this.loadComments(),
+      this.loadLikedPreview(),
+    ]);
   },
   data() {
     return {
       toggleOn: false,
       toggleIcon: "mdi-pencil-outline",
+      liked: null,
       valid: false,
       myinfo: null,
       inforules: [
@@ -66,12 +69,20 @@ export default {
   },
   methods: {
     loadComments() {
-      this.$store.dispatch('userStore/loadComments').
+      return this.$store.dispatch('userStore/loadComments').
         then((result) => {
           console.log("댓글 불러오기 성공!");
         }).catch((error)=>{
           console.log("댓글 불러오기 실패!");
         });
+    },
+    loadLikedPreview() {
+      return this.$axios.get('http://localhost:3001/profile/movie/preview',{
+          withCredentials: true
+        })
+        .then((result)=>{
+          this.liked = result.data;
+        })
     },
     onToggle(){
       this.toggleOn = !this.toggleOn;

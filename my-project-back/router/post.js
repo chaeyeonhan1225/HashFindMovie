@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const { route } = require('./profile');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -31,8 +32,8 @@ router.get('/', async (req, res, next) => {
     } catch (err) {
         console.error(err);
     }
+});
 
-})
 router.get('/movie', async (req, res, next) => {
     try {
         console.log("movie 요청!!");
@@ -42,7 +43,7 @@ router.get('/movie', async (req, res, next) => {
                 model: db.Comment,
                 include: [{ 
                     model: db.User,
-                    attributes: ['nick'],
+                    attributes: ['nick','color'],
                 }]
             },{
                 model: db.User,
@@ -85,7 +86,7 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
                 where: { movieId: movie.id },
                 include: {
                     model: db.User,
-                    attributes: ['nick'],
+                    attributes: ['nick','color'],
                 },
                 order: [['createdAt','ASC']],
             });
@@ -117,7 +118,7 @@ router.get('/:id/comments', async (req, res, next) => {
             },
             include: [{
                 model: db.User,
-                attributes: ['nick'],
+                attributes: ['nick','color'],
             }],
             order: [['createdAt','ASC']],
         });
@@ -138,7 +139,7 @@ router.post('/:id/like',async (req,res,next)=>{
     try {
         console.log(req.body);
         const movie = await db.Movie.findOne({
-            where: { id: req.body.movieId }
+            where: { id: req.params.id }
         });
         if(movie) {
             await movie.addLiker(req.user.id);
@@ -147,6 +148,24 @@ router.post('/:id/like',async (req,res,next)=>{
             return res.status(404).json({
                 errorCode: 2,
                 message: "잘못된 접근입니다."
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.delete('/:id/like',async(req,res,next)=>{
+    try {
+        const movie = await db.Movie.findOne({
+            where: { id: req.params.id }
+        });
+        if(movie) {
+            await movie.removeLiker(req.user.id);
+        } else {
+            return res.status(404).json({
+                errorCode: 2,
+                message: "잘못된 접근입니다.",
             });
         }
     } catch (error) {

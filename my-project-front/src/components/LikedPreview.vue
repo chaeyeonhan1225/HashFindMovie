@@ -1,8 +1,8 @@
 <!-- eslint-disable -->
 <template>
   <div>
-    <v-row>
-          <template v-for="m in movie">
+    <v-row v-if="me">
+      <template v-for="m in this.liked">
         <v-col cols="12" md="4" :key="m.id">
           <MovieCard :movie="m" />
         </v-col>
@@ -16,13 +16,18 @@
 import MovieCard from '../components/MovieCard';
 
 export default {
+  props: {
+        liked: {
+            type: Array,
+        }
+  },
   components: {
     MovieCard
   },
   computed: {
-    movie() {
-      return this.$store.state.movieStore.Movies;
-    }
+    me() {
+      return this.$store.state.userStore.me;
+    },
   }
 }
 </script>

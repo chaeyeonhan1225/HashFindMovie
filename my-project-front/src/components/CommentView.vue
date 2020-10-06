@@ -25,7 +25,7 @@
             <v-container :key="index" style="padding: 5px 30px">
                 <div style="display:flex;margin-bottom: 8px">
                     <span>
-                        <v-avatar color="blue">{{comment.user.nick}}</v-avatar>
+                        <v-avatar :color="comment.user.color">{{comment.user.nick}}</v-avatar>
                     </span>
                     <span style="margin-left: 10px">
                         <div style="font-weight:bold">

@@ -47,12 +47,6 @@ const movieStore = {
     setMovies(state, payload) {
       state.Movies = payload;
     },
-    likeMovie(state, payload) {
-      
-    },
-    removeLike(state, payload) {
-      
-    },
     loadComments(state,payload) {
       console.log("payload",payload);
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
@@ -75,7 +69,7 @@ const movieStore = {
     likeMovie({
       commit
     }, payload) {
-      axios.post(`http://localhost:3001/post/${payload.movieId}/like`,payload,{
+      axios.post(`http://localhost:3001/post/${payload.movieId}/like`,{},{
         withCredentials: true,
       }).then((result)=>{
         console.log("좋아요 성공!");
@@ -89,7 +83,13 @@ const movieStore = {
     removeLike({
       commit
     }, payload) {
-      commit('removeLike', payload);
+      axios.delete(`http://localhost:3001/post/${payload.movieId}/like`,{
+        withCredentials: true,
+      }).then((result)=>{
+        commit('removeLike', payload);
+      }).catch((error)=>{
+
+      });
     },
     addComment({
       commit

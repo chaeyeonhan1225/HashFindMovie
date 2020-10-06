@@ -21,7 +21,7 @@ const userStore = {
             state.me.comments = payload;
         },
         loadLiked(state,payload) {
-            Vue.set(state.me,'likedMovies',payload);
+            state.me.Liked = payload;
         }
     },
     actions: {

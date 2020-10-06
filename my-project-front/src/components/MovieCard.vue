@@ -29,7 +29,7 @@
        >
         {{liked}}
         <v-btn icon color="pink" @click="likeMovie()">
-          <v-icon>{{like}}</v-icon>
+          <v-icon>{{heartIcon}}</v-icon>
         </v-btn> 
       <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
@@ -88,7 +88,7 @@ export default{
           if(!this.alert) this.alert = true;
           return;
         }
-        if(this.like === "mdi-heart-outline"){
+        if(!this.liked){
           this.$store.dispatch('movieStore/likeMovie',{
             movieId: this.movie.id
           }).then((result)=>{
@@ -101,7 +101,7 @@ export default{
             this.$store.dispatch('movieStore/removeLike',{
               movieId : this.movie.id
             }).then((result) => {
-              this.like = "mdi-heart-outline";
+              console.log("좋아요 취소");
             }).catch((err)=>{
               console.error(err);
             });
@@ -114,7 +114,10 @@ export default{
         return this.$store.state.userStore.me;
       },
       liked() {
-        
+        return this.me && this.me.Liked.find(x => x.id === this.movie.id) ? true : false;
+      },
+      heartIcon() {
+        return this.liked ? 'mdi-heart' : 'mdi-heart-outline';
       },
       mcontent() {
         if(this.movie.content.length > 160){

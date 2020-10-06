@@ -1,5 +1,6 @@
 const local = require('./localStrategy');
 const db = require('../models');
+const { Movie } = require('../models');
 
 module.exports = (passport) => {
     passport.serializeUser((user,done)=>{
@@ -14,6 +15,16 @@ module.exports = (passport) => {
             const user = await db.User.findOne({
                 where: { id },
                 attributes: ['id','email','nick','info','color'],
+                include: [{
+                    model: db.Comment,
+                    include: [{
+                        model: db.Movie,
+                        attributes: ['id','title'],
+                    }]
+                },{
+                    model: db.Movie,
+                    as: 'Liked',
+                }]
             });
             return done(null,user);
         } catch (err) {

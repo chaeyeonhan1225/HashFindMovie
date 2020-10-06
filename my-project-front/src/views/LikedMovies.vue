@@ -3,7 +3,7 @@
     <div style="padding: 15px;">
         <h1><span class="mark_pen-orange" v-if="me">{{me.nick}}</span>님이 좋아한 영화 목록</h1>
         <v-row v-if="me" class="mt-5">
-            <template v-for="m in me.likedMovies">
+            <template v-for="m in me.Liked">
                 <v-col cols="12" md="4" :key="m.id">
                     <MovieCard :movie="m"/>
                 </v-col>

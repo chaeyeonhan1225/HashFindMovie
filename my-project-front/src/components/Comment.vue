@@ -4,7 +4,7 @@
     <v-container style="padding: 5px">
       <div style="display:flex;">
         <span>
-          <v-avatar color="blue">{{me.nick}}</v-avatar>
+          <v-avatar :color="me.color">{{me.nick}}</v-avatar>
         </span>
         <span style="margin-left: 10px">
           <div style="font-weight:bold">
@@ -26,7 +26,7 @@ export default {
   props: {
     comment: {
       type: Object,
-      required: true,
+      allowNull: true,
     }
   },
   computed: {

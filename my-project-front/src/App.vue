@@ -17,7 +17,7 @@
               <span><a href="/login">로그인</a></span>
             </div>
             <div style="display:inline-block;margin-left:10px;margin-right: 10px">
-              <v-avatar :color="me.color" size="40px"><v-icon dark>mdi-account</v-icon></v-avatar>
+              <v-avatar :color="me ? me.color : 'indigo'" size="40px"><v-icon dark>mdi-account</v-icon></v-avatar>
             </div>
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
