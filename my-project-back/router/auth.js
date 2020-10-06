@@ -3,6 +3,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
 const db = require('../models');
+const ColorHash = require('color-hash');
 
 const router = express.Router();
 
@@ -45,7 +46,7 @@ router.post('/login',async (req,res,next)=>{
             console.log(req.session);
             const fullUser = await User.findOne({
                 where: { id: user.id },
-                attributes: ['id','nick','info'],
+                attributes: ['id','nick','info','color'],
                 include: [{
                     model: db.Comment,
                     include: [{
@@ -65,6 +66,7 @@ router.post('/signup',async (req,res,next)=>{
         const { email, nickname } = req.body;
         const hash = await bcrypt.hash(req.body.password,12);
         const exUser = await User.findOne({ where: { email: email } });
+        const colorHash = new ColorHash();
         if(exUser){
             return res.status(403).json({
                 status: "reject",
@@ -76,6 +78,7 @@ router.post('/signup',async (req,res,next)=>{
             email: email,
             nick: nickname,
             password: hash,
+            color: colorHash.hex(Date.now().toString()),
         });
         console.log(newUser);
             
@@ -94,7 +97,7 @@ router.post('/signup',async (req,res,next)=>{
                 }
                 const fullUser = await User.findOne({
                     where: { id: user.id },
-                    attributes: ['id','nick','info'],
+                    attributes: ['id','nick','info','color'],
                     include: [{
                         model: db.Comment,
                         include: [{

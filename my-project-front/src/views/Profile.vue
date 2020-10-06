@@ -5,7 +5,7 @@
       <v-container>
         <v-row>
             <div style="margin-right:20px">
-              <v-avatar color="indigo" width="100px" height="100px">
+              <v-avatar :color="me.color" width="100px" height="100px">
                 <v-icon dark x-large>mdi-account</v-icon>
               </v-avatar>
             </div>

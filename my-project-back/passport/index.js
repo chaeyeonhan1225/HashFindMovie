@@ -13,7 +13,7 @@ module.exports = (passport) => {
         try {
             const user = await db.User.findOne({
                 where: { id },
-                attributes: ['id','email','nick','info'],
+                attributes: ['id','email','nick','info','color'],
             });
             return done(null,user);
         } catch (err) {
