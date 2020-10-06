@@ -17,9 +17,9 @@ import MovieCard from '../components/MovieCard';
 
 export default {
   props: {
-        liked: {
-            type: Array,
-        }
+    liked: {
+      type: Array,
+    }
   },
   components: {
     MovieCard
@@ -28,6 +28,9 @@ export default {
     me() {
       return this.$store.state.userStore.me;
     },
+  },
+  created() {
+    console.log(this.liked);
   }
 }
 </script>

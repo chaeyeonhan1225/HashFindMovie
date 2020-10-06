@@ -52,6 +52,19 @@ const movieStore = {
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
       Vue.set(state.Movies[index],'comments',payload.data);
     },
+    likeMovie(state,payload) {
+      console.log(payload);
+      const index = state.Movies.findIndex(v => v.id == payload.movieId);
+      state.Movies[index].Likers.push({
+        id: payload.userId
+      });
+    },
+    unlikeMovie(state,payload) {
+      console.log(payload);
+      const index = state.Movies.findIndex(v => v.id == payload.movieId);
+      const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
+      state.Movies[index].Likers.splice(user,1);
+    }
   },
   actions: {
     loadMovies({
@@ -86,7 +99,7 @@ const movieStore = {
       axios.delete(`http://localhost:3001/post/${payload.movieId}/like`,{
         withCredentials: true,
       }).then((result)=>{
-        commit('removeLike', payload);
+        commit('unlikeMovie', payload);
       }).catch((error)=>{
 
       });

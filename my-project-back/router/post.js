@@ -143,7 +143,10 @@ router.post('/:id/like',async (req,res,next)=>{
         });
         if(movie) {
             await movie.addLiker(req.user.id);
-            return res.json({ userId: req.user.id });
+            return res.json({ 
+                userId: req.user.id,
+                movieId: movie.id
+            });
         } else {
             return res.status(404).json({
                 errorCode: 2,
@@ -162,6 +165,10 @@ router.delete('/:id/like',async(req,res,next)=>{
         });
         if(movie) {
             await movie.removeLiker(req.user.id);
+            return res.json({
+                userId: req.user.id,
+                movieId: movie.id
+            });
         } else {
             return res.status(404).json({
                 errorCode: 2,

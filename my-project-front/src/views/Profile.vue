@@ -59,7 +59,7 @@ export default {
     return {
       toggleOn: false,
       toggleIcon: "mdi-pencil-outline",
-      liked: null,
+      liked: [],
       valid: false,
       myinfo: null,
       inforules: [
@@ -82,6 +82,7 @@ export default {
         })
         .then((result)=>{
           this.liked = result.data;
+          console.log(this.liked);
         })
     },
     onToggle(){

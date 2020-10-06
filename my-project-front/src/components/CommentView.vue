@@ -8,8 +8,7 @@
           로그인한 사용자만 댓글 작성 가능합니다.
         </span>
         <span v-else>
-          <v-icon color="orange">mdi-star</v-icon>
-          해시태그를 남겨보세요!
+          #해시태그를 남겨보세요!
         </span>  
         <v-form>
           <v-textarea :disabled="!me" :success="this.success" :success-messages="this.successMessage" v-model="content" filled label="한줄 평을 남겨주세요!"></v-textarea>

@@ -25,9 +25,9 @@
       justify="end"
     >
       <v-card-actions
-        style="margin-right: 12px"
+        class="mr-2"
        >
-        {{liked}}
+       {{this.movie}}
         <v-btn icon color="pink" @click="likeMovie()">
           <v-icon>{{heartIcon}}</v-icon>
         </v-btn> 
@@ -114,7 +114,7 @@ export default{
         return this.$store.state.userStore.me;
       },
       liked() {
-        return this.me && this.me.Liked.find(x => x.id === this.movie.id) ? true : false;
+        return this.me && this.movie && this.movie.Likers.find(x => x.id === this.me.id) ? true : false;
       },
       heartIcon() {
         return this.liked ? 'mdi-heart' : 'mdi-heart-outline';

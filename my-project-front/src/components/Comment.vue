@@ -1,7 +1,8 @@
 <!-- eslint-disable -->
 <template>
   <v-card outlined style="margin-top: 6px">
-    <v-container style="padding: 5px">
+    <v-container class="pa-2">
+      <v-icon style="position: absolute; right: 5px" @click="removeComment()">mdi-close</v-icon>
       <div style="display:flex;">
         <span>
           <v-avatar :color="me.color">{{me.nick}}</v-avatar>
@@ -16,6 +17,7 @@
           </div>
         </span>
       </div>
+      
     </v-container>
   </v-card>
 </template>
@@ -27,6 +29,13 @@ export default {
     comment: {
       type: Object,
       allowNull: true,
+    }
+  },
+  methods: {
+    removeComment() {
+      if(confirm("댓글을 삭제하시겠습니까?")){
+
+      } 
     }
   },
   computed: {
