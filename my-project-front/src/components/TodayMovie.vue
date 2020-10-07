@@ -33,10 +33,8 @@
       MovieCarousels,
     },
     
-    created: function() {
+    created() {
       this.fetchMovies();
-      console.log(this.$store.state.movieStore.Movies);
-      // this.movies = this.$store.state.movieStore.Movies;
     },
     data() {
       return {
@@ -45,9 +43,7 @@
     },
     methods: {
       fetchMovies() {
-        this.$store.dispatch('movieStore/loadMovies').then((result)=>
-          this.movies = this.$store.state.movieStore.Movies
-        )
+        this.$store.dispatch('movieStore/loadMovies');
       }
     },
     computed: {

@@ -90,7 +90,10 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
                 },
                 order: [['createdAt','ASC']],
             });
-            return res.json(fullComments);
+            return res.json({
+                movieId: movie.id,
+                comments: fullComments,
+            });
         } else {
             console.log(req.body);
             return res.status(401).json({

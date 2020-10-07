@@ -48,7 +48,9 @@ export default {
     menu2: "Sign In"
   }),
   created() {
-    return this.fetchUser();
+    return Promise.all[
+      this.fetchUser()
+    ]
   },
   computed: {
     me() {
@@ -59,6 +61,10 @@ export default {
     fetchUser() {
       console.log("fetchUser 실행!");
       return this.$store.dispatch("userStore/loadUser");
+    },
+    fetchMovies() {
+      console.log("fetchMovies 실행!");
+      return this.$store.dispatch("movieStore/loadMovies");
     },
     logout() {
       console.log("로그 아웃");

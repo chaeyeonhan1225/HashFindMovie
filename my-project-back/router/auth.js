@@ -53,9 +53,6 @@ router.post('/login',async (req,res,next)=>{
                         model: db.Movie,
                         attributes: ['id','title'],
                     }],
-                },{
-                    model: db.Movie,
-                    as: 'Liked',
                 }],
             });
             res.json(fullUser);
@@ -107,9 +104,6 @@ router.post('/signup',async (req,res,next)=>{
                             model: db.Movie,
                             attributes: ['id','title'],
                         }],
-                    },{
-                        model: db.Movie,
-                        as: 'Liked',
                     }],
                 });
                 res.json(fullUser);

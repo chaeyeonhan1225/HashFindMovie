@@ -50,7 +50,7 @@ const movieStore = {
     loadComments(state,payload) {
       console.log("payload",payload);
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
-      Vue.set(state.Movies[index],'comments',payload.data);
+      Vue.set(state.Movies[index],'comments',payload.comments);    
     },
     likeMovie(state,payload) {
       console.log(payload);
@@ -64,7 +64,7 @@ const movieStore = {
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
       const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
       state.Movies[index].Likers.splice(user,1);
-    }
+    },
   },
   actions: {
     loadMovies({
@@ -99,9 +99,9 @@ const movieStore = {
       axios.delete(`http://localhost:3001/post/${payload.movieId}/like`,{
         withCredentials: true,
       }).then((result)=>{
-        commit('unlikeMovie', payload);
+        commit('unlikeMovie', result.data);
       }).catch((error)=>{
-
+        console.error(error);
       });
     },
     addComment({
@@ -111,13 +111,31 @@ const movieStore = {
         withCredentials: true
       }).then((result) => {
         commit('loadComments',{
-          movieId: payload.movieId,
-          data: result.data
+          movieId: result.data.movieId,
+          comments: result.data.comments,
         });
       }).catch((error) => {
         console.error(error);
       });
       // commit('addComment',payload);
+    },
+    loadLiked({ commit }) {
+      axios.get('http://localhost:3001/profile/movie',{
+          withCredentials: true,
+      }).then((result)=>{
+          commit('setMovies',result.data);
+      }).catch((error)=>{
+          console.error(error);
+      })
+    },
+    loadLikedPreview({ commit }) {
+      axios.get('http://localhost:3001/profile/movie/preview',{
+          withCredentials: true,
+      }).then((result)=>{
+          commit('setMovies',result.data);
+      }).catch((error)=>{
+          console.error(error);
+      })
     },
     loadComments({
       commit

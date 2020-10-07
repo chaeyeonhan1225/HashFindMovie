@@ -9,7 +9,22 @@ router.get('/movie', async (req,res,next)=>{
             const user = await db.User.findOne({
                 where: { id: req.user.id }
             });
-            const movies = await user.getLiked();
+            const movies = await user.getLiked({
+                limit: 6,
+                order: [['createdAt','DESC']],
+                include: [{
+                    model: db.Comment,
+                    include: [{ 
+                        model: db.User,
+                        attributes: ['nick','color'],
+                    }]
+                },{
+                    model: db.User,
+                    as: 'Likers',
+                    attributes: ['id']
+                }]
+            });
+            // const movies = await user.getLiked();
             console.log(movies);
             return res.status(200).json(movies);
         } else {
@@ -28,7 +43,18 @@ router.get('/movie/preview',async (req,res,next)=>{ // 최대 6개까지만 불�
             });
             const movies = await user.getLiked({
                 limit: 6,
-                order: [['createdAt','DESC']]
+                order: [['createdAt','DESC']],
+                include: [{
+                    model: db.Comment,
+                    include: [{ 
+                        model: db.User,
+                        attributes: ['nick','color'],
+                    }]
+                },{
+                    model: db.User,
+                    as: 'Likers',
+                    attributes: ['id']
+                }]
             });
             console.log(movies);
             return res.status(200).json(movies);

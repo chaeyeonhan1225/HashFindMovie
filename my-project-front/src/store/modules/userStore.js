@@ -6,6 +6,7 @@ const userStore = {
     namespaced: true,
     state: {
         me: null,
+        liked: [],
     },
     mutations: {
         setMe(state, payload) {
@@ -20,9 +21,7 @@ const userStore = {
         loadComments(state,payload) {
             state.me.comments = payload;
         },
-        loadLiked(state,payload) {
-            state.me.Liked = payload;
-        }
+        
     },
     actions: {
         loadUser({ state,commit },){
@@ -90,17 +89,6 @@ const userStore = {
             .catch((error)=>{
                 console.error(error);
             });
-        },
-        loadLiked({ commit }) {
-            axios.get('http://localhost:3001/profile/movie',{
-                withCredentials: true,
-            }).then((result)=>{
-                commit('loadLiked',result.data);
-                console.log(result.data);
-                
-            }).catch((error)=>{
-                console.error(error);
-            })
         },
         loadComments({ commit }) {
             axios.get('http://localhost:3001/auth/comments',{

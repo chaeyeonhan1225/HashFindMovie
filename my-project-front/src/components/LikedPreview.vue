@@ -3,9 +3,9 @@
   <div>
     <v-row v-if="me">
       <template v-for="m in this.liked">
-        <v-col cols="12" md="4" :key="m.id">
-          <MovieCard :movie="m" />
-        </v-col>
+          <v-col cols="12" md="4" :key="m.id">
+            <MovieCard :movie="m" />
+          </v-col>
       </template>
     </v-row>
   </div>
@@ -31,6 +31,6 @@ export default {
   },
   created() {
     console.log(this.liked);
-  }
+  },
 }
 </script>

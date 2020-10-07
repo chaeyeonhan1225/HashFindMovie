@@ -42,9 +42,7 @@
     },
     methods: {
       fetchMovies() {
-        this.$store.dispatch('movieStore/loadMovies').then((result)=>
-          this.movies = this.$store.state.movieStore.Movies
-        )
+        this.$store.dispatch('movieStore/loadMovies');
       }
     },
     computed: {

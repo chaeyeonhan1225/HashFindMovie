@@ -28,10 +28,11 @@
                 <h2 style="display:inline">좋아요 누른 영화</h2>
                 <a href="/liked" style="margin-left: 10px">더보기</a>
               </span>
-                <LikedPreview :liked="this.liked"/>
+                <LikedPreview :liked="movies"/>
               <h2 style="display:inline">나의 한줄 평</h2>
               <span style="margin-left:5px" v-if="me.comments">{{me.comments.length}}</span>
-              <span style="float:right"><a href="profile/comments">댓글 더보기</a></span>
+              <span class="ml-2"><v-btn icon @click="loadComments()"><v-icon>mdi-refresh</v-icon></v-btn></span>
+              <span style="float:right"><a href="/profile/comments">댓글 더보기</a></span>
               <CommentsPreview :comments="me.comments"/>
             </div>
         </v-card>
@@ -59,7 +60,6 @@ export default {
     return {
       toggleOn: false,
       toggleIcon: "mdi-pencil-outline",
-      liked: [],
       valid: false,
       myinfo: null,
       inforules: [
@@ -77,13 +77,14 @@ export default {
         });
     },
     loadLikedPreview() {
-      return this.$axios.get('http://localhost:3001/profile/movie/preview',{
-          withCredentials: true
-        })
-        .then((result)=>{
-          this.liked = result.data;
-          console.log(this.liked);
-        })
+      return this.$store.dispatch('movieStore/loadLikedPreview')
+                .then((result)=>{
+                    // console.log(this.movies);
+                    console.log("좋아요 누른 영화 불러오기 성공!");
+                })
+                .catch((error)=>{
+                console.error(error);
+                });
     },
     onToggle(){
       this.toggleOn = !this.toggleOn;
@@ -110,6 +111,9 @@ export default {
   computed: {
     me() {
       return this.$store.state.userStore.me;
+    },
+    movies() {
+      return this.$store.state.movieStore.Movies;
     }
   }
 }

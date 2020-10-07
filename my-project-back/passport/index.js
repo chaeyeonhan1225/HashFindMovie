@@ -21,9 +21,6 @@ module.exports = (passport) => {
                         model: db.Movie,
                         attributes: ['id','title'],
                     }]
-                },{
-                    model: db.Movie,
-                    as: 'Liked',
                 }]
             });
             return done(null,user);

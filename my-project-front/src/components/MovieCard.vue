@@ -1,6 +1,6 @@
 <!-- eslint-disable -->
 <template>
-  <div style="margin-bottom: 20px">
+  <div style="margin-bottom: 20px" v-if="this.movie">
   <v-card flat outlined>
     <!-- <v-img 
     class="white--text align-end" 
@@ -27,7 +27,6 @@
       <v-card-actions
         class="mr-2"
        >
-       {{this.movie}}
         <v-btn icon color="pink" @click="likeMovie()">
           <v-icon>{{heartIcon}}</v-icon>
         </v-btn> 
@@ -54,7 +53,7 @@
     </v-row>
     
   </v-card>
-    <v-alert dense outlined type="error" class="mt-2"  :value="this.alert">로그인해주세요!</v-alert> 
+     
   </div>
 </template>
 
@@ -79,7 +78,6 @@ export default{
         content: this.movie.content,
         hashtag : "",
         focusTag: "blue",
-        alert: false,
       }
     },
     methods: {
@@ -108,6 +106,9 @@ export default{
           }
         }
       },
+    },
+    created() {
+      this.dialog = false;
     },
     computed: {
       me() {
