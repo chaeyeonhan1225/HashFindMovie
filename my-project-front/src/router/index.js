@@ -37,9 +37,15 @@ const routes = [
   },
   {
     path: "/liked",
-    name: "liked",
+    name: "Likeds",
     component: () => 
       import(/* webpackChunkName: "liked" */ "../views/LikedMovies.vue")
+  },
+  {
+    path: "/profile/comments",
+    name: "Comments",
+    component: () => 
+      import(/* webpackChunkName: "liked" */ "../views/UserComments.vue")
   },
   {
     path: '/*',

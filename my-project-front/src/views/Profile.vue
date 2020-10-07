@@ -69,7 +69,10 @@ export default {
   },
   methods: {
     loadComments() {
-      return this.$store.dispatch('userStore/loadComments').
+      this.$store.dispatch('userStore/loadComments',{
+        offset: 0,
+        limit: 5,
+      }).
         then((result) => {
           console.log("댓글 불러오기 성공!");
         }).catch((error)=>{
@@ -77,14 +80,14 @@ export default {
         });
     },
     loadLikedPreview() {
-      return this.$store.dispatch('movieStore/loadLikedPreview')
-                .then((result)=>{
-                    // console.log(this.movies);
-                    console.log("좋아요 누른 영화 불러오기 성공!");
-                })
-                .catch((error)=>{
-                console.error(error);
-                });
+      this.$store.dispatch('movieStore/loadLikedPreview')
+        .then((result)=>{
+        console.log(this.movies);
+        console.log("좋아요 누른 영화 불러오기 성공!");
+        })
+        .catch((error)=>{
+          console.error(error);
+        });
     },
     onToggle(){
       this.toggleOn = !this.toggleOn;
@@ -112,9 +115,6 @@ export default {
     me() {
       return this.$store.state.userStore.me;
     },
-    movies() {
-      return this.$store.state.movieStore.Movies;
-    }
   }
 }
 </script>

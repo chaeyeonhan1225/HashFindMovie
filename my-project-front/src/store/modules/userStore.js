@@ -18,7 +18,7 @@ const userStore = {
         changeUserInfo(state,payload){
             state.me.info = payload.info;
         },
-        loadComments(state,payload) {
+        setComments(state,payload) {
             state.me.comments = payload;
         },
         
@@ -90,12 +90,12 @@ const userStore = {
                 console.error(error);
             });
         },
-        loadComments({ commit }) {
-            axios.get('http://localhost:3001/auth/comments',{
+        loadComments({ commit },payload) {
+            axios.get(`http://localhost:3001/auth/comments?limit=${payload.limit}&offset=${payload.offset}`,{
                 withCredentials: true,
             })
             .then((result) => {
-                commit('loadComments',result.data);
+                commit('setComments',result.data);
                 console.log(result.data);
             })
             .catch((error)=>{

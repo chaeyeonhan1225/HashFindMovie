@@ -1,39 +1,39 @@
 <!-- eslint-disable -->
 <template>
-  <div>
+  <div v-if="movies">
+    <!--<MovieCarousels />-->
     <v-container style="margin-bottom: 10px;margin-top: 20px">
      <h1><span class="mark_pen-yellow">오늘의 랜덤 영화</span></h1>
-      <v-container v-if="movieInfo.length > 0">
+      <v-container v-if="movies.length > 0">
         <v-row>
           <v-col cols="12" md="4">
-            <MovieCard :movie="movieInfo[0]"></MovieCard>
+            <MovieCard :movie="movies[3]"></MovieCard>
           </v-col>
           <v-col cols="12" md="4">
-            <MovieCard :movie="movieInfo[3]"></MovieCard>
+            <MovieCard :movie="movies[2]"></MovieCard>
           </v-col>
           <v-col cols="12" md="4">
-            <MovieCard :movie="movieInfo[4]"></MovieCard>
+            <MovieCard :movie="movies[1]"></MovieCard>
           </v-col>
         </v-row>
       </v-container>
     </v-container>
-    
   </div>
 </template>
 
 <script>
 /* eslint-disable */
   import MovieCard from "./MovieCard";
+  import MovieCarousels from "./MovieCarousels";
 
   export default {
     components: {
       MovieCard,
+      MovieCarousels,
     },
     
-    created: function() {
-      this.fetchMovies();
-      console.log(this.$store.state.movieStore.Movies);
-      // this.movies = this.$store.state.movieStore.Movies;
+    created() {
+      return this.fetchMovies();
     },
     data() {
       return {
@@ -46,7 +46,7 @@
       }
     },
     computed: {
-      movieInfo() {
+      movies() {
         return this.$store.state.movieStore.Movies;
       },
       me() {

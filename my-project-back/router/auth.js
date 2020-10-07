@@ -132,9 +132,14 @@ router.patch('/userinfo',async (req,res,next)=>{
 
 router.get('/comments', async (req,res,next)=>{
     try {
+        const limit = parseInt(req.query.limit,10);
+        const offset = parseInt(req.query.offset,10);
+        console.log(req.query);
         const comments = await db.Comment.findAll({
             where: { userId: req.user.id },
             attributes: ['id','content', 'createdAt'],
+            limit: limit,
+            offset: offset,
             include: [{
                 model: db.Movie,
                 attributes: ['id','title']
@@ -148,6 +153,7 @@ router.get('/comments', async (req,res,next)=>{
         console.error(error);
     }
 });
+
 
 
 

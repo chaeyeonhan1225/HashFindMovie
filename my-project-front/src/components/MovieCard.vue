@@ -8,8 +8,8 @@
     :src="movie.img_url"
     > -->
       <div style="margin-left:5px">
-        <h2 style="font-size:2.5rem;display:inline">{{movie.id}} </h2>
-        <h2 style="font-size:1.5rem;display:inline">{{movie.title}}</h2>
+        <h2 style="font-size:2.5rem;display:inline">{{this.movie.id}} </h2>
+        <h2 style="font-size:1.5rem;display:inline">{{this.movie.title}}</h2>
       </div>
     <!-- </v-img> -->
     <v-container>
@@ -75,7 +75,6 @@ export default{
       return {
         like: 'mdi-heart-outline',
         dialog: false,
-        content: this.movie.content,
         hashtag : "",
         focusTag: "blue",
       }
