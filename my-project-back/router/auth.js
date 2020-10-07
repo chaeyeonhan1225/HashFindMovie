@@ -78,7 +78,7 @@ router.post('/signup',async (req,res,next)=>{
             email: email,
             nick: nickname,
             password: hash,
-            color: colorHash.hex(Date.now().toString()),
+            color: colorHash.hex(Date.now().toString()+email),
         });
         console.log(newUser);
             
