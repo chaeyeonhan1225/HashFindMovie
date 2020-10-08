@@ -6,7 +6,7 @@ const userStore = {
     namespaced: true,
     state: {
         me: null,
-        liked: [],
+        comments: [],
     },
     mutations: {
         setMe(state, payload) {

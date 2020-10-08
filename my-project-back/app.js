@@ -9,6 +9,7 @@ const passportConfig = require('./passport');
 
 const indexRouter = require('./router');
 const authRouter = require('./router/auth');
+const moviesRouter = require('./router/movies');
 const postRouter = require('./router/post');
 const profileRouter = require('./router/profile');
 
@@ -48,8 +49,10 @@ app.use(passport.session());
 // 라우터
 app.use('/',indexRouter);
 app.use('/auth',authRouter);
+app.use('/movies',moviesRouter);
 app.use('/post',postRouter);
 app.use('/profile',profileRouter);
+
 
 
 app.listen('3001',()=>{

@@ -6,6 +6,8 @@ const movieStore = {
   namespaced: true,
   state: {
     Movies: [],
+    RandomMovies: [],
+    movie: null,
     // {
     //   mno: 1,
     //   title: "알라딘",
@@ -47,10 +49,23 @@ const movieStore = {
     setMovies(state, payload) {
       state.Movies = payload;
     },
+    setMovie(state,payload) {
+      state.movie = payload;
+    },
+    setRandomMovies(state,payload) {
+      state.RandomMovies = payload;
+    },
     loadComments(state,payload) {
       console.log("payload",payload);
-      const index = state.Movies.findIndex(v => v.id == payload.movieId);
-      Vue.set(state.Movies[index],'comments',payload.comments);    
+      // const index = state.movie.findIndex(v => v.id == payload.movieId);
+      Vue.set(state.movie,'comments',payload.comments);    
+    },
+    addComment(state,payload) {
+      state.movie.comments.unshift(payload);
+    },
+    removeComment(state,payload) {
+      const index = state.movie.comments.findIndex(v => v.id == payload.commentId);
+      state.movie.comments.splice(index,1);
     },
     likeMovie(state,payload) {
       console.log(payload);
@@ -70,12 +85,22 @@ const movieStore = {
     loadMovies({
       commit
     }) {
-      axios.get('http://localhost:3001/post/movie', {
+      axios.get('http://localhost:3001/movies/today', {
         withCredentials: true,
       }).then((result) => {
         console.log(result.data);
         commit('setMovies', result.data);
       }).catch((error) => {
+        console.error(error);
+      });
+    },
+    loadMovie({ commit },payload){
+      axios.get(`http://localhost:3001/post/movie/${payload.movieId}`,{
+        withCredentials: true,
+      }).then((result)=>{
+        console.log(result.data);
+        commit('setMovie',result.data);
+      }).catch((error)=>{
         console.error(error);
       });
     },
@@ -110,14 +135,21 @@ const movieStore = {
       axios.post('http://localhost:3001/post/comment', payload, {
         withCredentials: true
       }).then((result) => {
-        commit('loadComments',{
-          movieId: result.data.movieId,
-          comments: result.data.comments,
-        });
+        commit('addComment',result.data);
       }).catch((error) => {
         console.error(error);
       });
       // commit('addComment',payload);
+    },
+    removeComment({ commit }, payload ) {
+      axios.delete(`http://localhost:3001/post/comment/${payload.commentId}`,{
+        withCredentials: true,
+      }).then((result)=>{
+        console.log(result.data);
+        commit('removeComment',result.data);
+      }).catch((error)=>{
+        console.error(error);
+      });
     },
     loadLiked({ commit }) {
       axios.get('http://localhost:3001/profile/movie',{

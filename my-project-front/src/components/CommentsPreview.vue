@@ -2,14 +2,14 @@
 <template>
     <div>
         <template v-for="c in this.comments">
-            <Comment :comment="c" :key="c.id"/>
+            <UserComment :comment="c" :key="c.id"/>
         </template>
     </div>
 </template>
 
 <script>
 /* eslint-disable */
-import Comment from '../components/Comment';
+import UserComment from '../components/UserComment';
 export default {
     props: {
         comments: {
@@ -17,7 +17,7 @@ export default {
         }
     },
     components: {
-        Comment,
+        UserComment,
     },
     computed: {
         me() {

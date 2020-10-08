@@ -34,27 +34,30 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.get('/movie', async (req, res, next) => {
+router.get('/movie/:id', async (req, res, next) => {
     try {
-        console.log("movie 요청!!");
-
-        const movies = await db.Movie.findAll({
+        const movies = await db.Movie.findOne({
+            where: { id: req.params.id },
             include: [{
                 model: db.Comment,
-                include: [{ 
+                include: [{
                     model: db.User,
-                    attributes: ['nick','color'],
+                    attributes: ['nick', 'color'],
                 }]
-            },{
+            }, {
                 model: db.User,
                 as: 'Likers',
                 attributes: ['id'],
             }],
-            order: [['id','ASC'],]
+            limit: 3,
+            order: [
+                ['id', 'ASC'],
+            ]
         });
         return res.json(movies);
-    } catch (err) {
-        console.error(err);
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
 });
 
@@ -66,34 +69,29 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
         const movie = await db.Movie.findOne({
             where: { id: req.body.movieId }
         });
-        console.log(movie);
         if(movie){
-            await db.Comment.create({
+            const newComment = await db.Comment.create({
                 userId: req.user.id,
                 movieId: movie.id,
                 content: req.body.content,
             });
             const hashtags = req.body.content.match(/#[^\s#]+/g);
-            console.log(hashtags);
+            // console.log(hashtags);
             if(hashtags) {
                 const result = await Promise.all(hashtags.map(tag=> db.Hashtag.findOrCreate({
                     where: { content: tag.slice(1).toLowerCase() },
                 })));
                 await movie.addHashtags(result.map(r=>r[0]));
             }
-            
-            const fullComments = await db.Comment.findAll({
-                where: { movieId: movie.id },
-                include: {
+            const comment = await db.Comment.findOne({
+                where: { id: newComment.id },
+                include: [{
                     model: db.User,
-                    attributes: ['nick','color'],
-                },
-                order: [['createdAt','ASC']],
+                    attributes: ['id','nick','color']
+                }]
             });
-            return res.json({
-                movieId: movie.id,
-                comments: fullComments,
-            });
+            console.log(comment);
+            return res.json(comment);
         } else {
             console.log(req.body);
             return res.status(401).json({
@@ -101,13 +99,35 @@ router.post('/comment', isLoggedIn, async (req, res, next) => {
                 message: "잘못된 접근입니다.",
             });
         }
-        
-        
     } catch (error) {
         console.error(error);
     }
 });
 
+router.delete('/comment/:id',async(req,res,next)=>{
+    try {
+        const comment = await db.Comment.findOne({
+            where: { id: req.params.id },
+        });
+        // console.log(req.user.id);
+        // console.log(comment.userId);
+        if(comment && req.user && comment.userId === req.user.id) {
+            await db.Comment.destroy({
+                where: { id: req.params.id }
+            });
+            return res.json({
+                commentId: req.params.id
+            }); 
+        } else {
+            return res.status(404).json({
+                errorCode: 1,
+                message: "잘못된 접근입니다."
+            });
+        }
+    } catch(error) {
+        console.error(error);
+    }
+});
 
 router.get('/:id/comments', async (req, res, next) => {
     try {
@@ -123,7 +143,7 @@ router.get('/:id/comments', async (req, res, next) => {
                 model: db.User,
                 attributes: ['nick','color'],
             }],
-            order: [['createdAt','ASC']],
+            order: [['createdAt','DESC']],
         });
         
         return res.json(fullComments);

@@ -2,8 +2,28 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import store from '../store/index';
 
 Vue.use(VueRouter);
+
+const SignIn = () => import(/* webpackChunkName: "signup" */ "../views/SignIn.vue");
+const SignUp = () => import(/* webpackChunkName: "signup" */ "../views/SignUp.vue");
+const Profile = () => import(/* webpackChunkName: "proflie" */ "../views/Profile.vue");
+const Likeds = () => import(/* webpackChunkName: "liked" */ "../views/LikedMovies.vue");
+const Comments = () => import(/* webpackChunkName: "liked" */ "../views/UserComments.vue");
+
+const isLoggedIn = () => (to,from,next) => {
+  if(store.state.userStore.me) {
+    return next();
+  }
+  next('/error');
+}
+const isNotLoggedIn = () => (to,from,next) => {
+  if(!store.state.userStore.me) {
+    return next();
+  }
+  next('/error');
+}
 
 const routes = [
   {
@@ -20,32 +40,38 @@ const routes = [
   {
     path: "/login",
     name: "SignIn",
-    component: () =>
-      import(/* webpackChunkName: "signup" */ "../views/SignIn.vue")
+    component: SignIn,
+    beforeEnter: isNotLoggedIn(),
   },
   {
     path: "/signup",
     name: "SignUp",
-    component: () =>
-      import(/* webpackChunkName: "signup" */ "../views/SignUp.vue")
+    component: SignUp,
+    beforeEnter: isNotLoggedIn(),
   },
   {
     path: "/profile",
     name: "Profile",
-    component: () =>
-      import(/* webpackChunkName: "proflie" */ "../views/Profile.vue")
+    component: Profile,
+    beforeEnter: isLoggedIn(),
   },
   {
-    path: "/liked",
+    path: "/profile/liked",
     name: "Likeds",
-    component: () => 
-      import(/* webpackChunkName: "liked" */ "../views/LikedMovies.vue")
+    component: Likeds,
+    beforeEnter: isLoggedIn(),
   },
   {
     path: "/profile/comments",
     name: "Comments",
-    component: () => 
-      import(/* webpackChunkName: "liked" */ "../views/UserComments.vue")
+    component: Comments,
+    beforeEnter: isLoggedIn(),
+  },
+  {
+    path: "/movie/:id",
+    name: "Movie",
+    component: () =>
+    import(/* webpackChunkName: "liked" */ "../views/Movie.vue"),
   },
   {
     path: '/*',

@@ -26,13 +26,13 @@
             <div style="padding:15px">
               <span>
                 <h2 style="display:inline">좋아요 누른 영화</h2>
-                <a href="/liked" style="margin-left: 10px">더보기</a>
+                <router-link to="/profile/liked" style="margin-left: 10px">더보기</router-link>
               </span>
-                <LikedPreview :liked="movies"/>
+                <!--LikedPreview :liked="movies"/-->
               <h2 style="display:inline">나의 한줄 평</h2>
               <span style="margin-left:5px" v-if="me.comments">{{me.comments.length}}</span>
               <span class="ml-2"><v-btn icon @click="loadComments()"><v-icon>mdi-refresh</v-icon></v-btn></span>
-              <span style="float:right"><a href="/profile/comments">댓글 더보기</a></span>
+              <span style="float:right"><router-link to="/profile/comments">댓글 더보기</router-link></span>
               <CommentsPreview :comments="me.comments"/>
             </div>
         </v-card>
@@ -53,7 +53,7 @@ export default {
   created() {
     return Promise.all([
       this.loadComments(),
-      this.loadLikedPreview(),
+      // this.loadLikedPreview(),
     ]);
   },
   data() {

@@ -1,16 +1,16 @@
 <!-- eslint-disable -->
 <template>
-  <v-card outlined style="margin-top: 6px">
+  <v-card outlined style="margin-top: 6px" v-if="me">
     <v-container class="pa-2">
-      <v-icon v-if="myComment" style="position: absolute; right: 5px" @click="removeComment()">mdi-close</v-icon>
+      <v-icon style="position: absolute; right: 5px" @click="removeComment()">mdi-close</v-icon>
       <div style="display:flex;">
         <span>
-          <v-avatar :color="comment.user.color">{{comment.user.nick}}</v-avatar>
+          <v-avatar :color="me.color">{{me.nick}}</v-avatar>
         </span>
         <span style="margin-left: 10px">
           <div style="font-weight:bold">
-            <span>{{comment.user.nick}}</span>
-            <v-chip style="margin-left: 10px" small label></v-chip>
+            <span>{{me.nick}}</span>
+            <v-chip style="margin-left: 10px" small label>{{comment.movie.title}}</v-chip>
           </div>
           <div style="font-size: 14px;">
             {{comment.content}}
@@ -50,9 +50,6 @@ export default {
     me() {
       return this.$store.state.userStore.me;
     },
-    myComment() {
-      return this.me && this.me.id === this.comment.userId;
-    }
   }
 }
 </script>

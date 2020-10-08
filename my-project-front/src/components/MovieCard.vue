@@ -13,6 +13,7 @@
       </div>
     <!-- </v-img> -->
     <v-container>
+      <router-link :to="{ name: 'Movie', params: { id: this.movie.id }}">자세히 보기</router-link>
     <!-- <h3>{{movie.subtitle}}</h3> -->
     <!-- <p style="font-size:0.8rem">{{mcontent}}</p> -->
     <!-- <template v-for="(tag) in movie.tags">
@@ -30,25 +31,9 @@
         <v-btn icon color="pink" @click="likeMovie()">
           <v-icon>{{heartIcon}}</v-icon>
         </v-btn> 
-      <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon 
-          color="gray"
-          v-bind="attrs"
-          v-on="on"  
-        >
-          <v-icon>mdi-comment-outline</v-icon>
+        <v-btn icon>
+          <v-icon>mdi-message-outline</v-icon>
         </v-btn>
-      </template>
-      <v-card>
-    <v-card-title style="margin-bottom:0px">
-      <h3><span class="mark_pen-yellow">한줄 평</span>을 남겨주세요!</h3>
-      <v-spacer></v-spacer>
-      <v-icon @click="dialog = false">mdi-close</v-icon>
-    </v-card-title>
-    <CommentView :movieId="this.movie.id"></CommentView>
-  </v-card>
-    </v-dialog>
       </v-card-actions>
     </v-row>
     
