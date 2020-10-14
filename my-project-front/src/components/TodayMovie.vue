@@ -6,14 +6,8 @@
      <h1><span class="mark_pen-yellow">오늘의 영화</span></h1>
       <v-container v-if="movies.length > 0">
         <v-row>
-          <v-col cols="12" md="4">
-            <MovieCard :movie="movies[0]"></MovieCard>
-          </v-col>
-          <v-col cols="12" md="4">
-            <MovieCard :movie="movies[1]"></MovieCard>
-          </v-col>
-          <v-col cols="12" md="4">
-            <MovieCard :movie="movies[2]"></MovieCard>
+          <v-col v-for="m in movies" :key="m.id" cols="12" md="4">
+            <MovieCard v-if = m :movie="m"></MovieCard>
           </v-col>
         </v-row>
       </v-container>

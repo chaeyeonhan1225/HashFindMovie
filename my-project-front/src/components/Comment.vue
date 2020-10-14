@@ -10,7 +10,6 @@
         <span style="margin-left: 10px">
           <div style="font-weight:bold">
             <span>{{comment.user.nick}}</span>
-            <v-chip style="margin-left: 10px" small label></v-chip>
           </div>
           <div style="font-size: 14px;">
             {{comment.content}}

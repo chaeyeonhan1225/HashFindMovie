@@ -10,8 +10,8 @@
         <v-chip color="green" small class="mx-1">{{node}}</v-chip>
       </span>
     </div>
+    <span>찾으시는 영화가 없나요? <a href="/">영화 추가하기</a></span>
     <today-movie></today-movie>
-    <random-movie></random-movie>
   </v-container>
 </template>
 

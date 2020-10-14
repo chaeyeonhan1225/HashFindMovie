@@ -58,7 +58,7 @@ export default {
             content: "",
             successMessage: "",
             success: false,
-            img_url: "https://img.extmovie.com/files/attach/images/135/867/765/046/3ec1fbe88236c9432f0bc3623305187b.jpeg"    
+            img_url: ""    
         }
     },
     methods: {

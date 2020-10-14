@@ -9,16 +9,30 @@
             <v-spacer></v-spacer>
             <h1 id="title">TodayMovie</h1>
             <v-spacer></v-spacer>
-            <v-btn text @click="logout" v-if="me">로그아웃</v-btn>
             <div style="display:inline-block;" v-if="me !== null">
               <span class="mark_pen-yellow">{{me.nick}}</span>
             </div>
-            <div style="display:inline-block;" v-else>
-              <span><a href="/login">로그인</a></span>
-            </div>
-            <div style="display:inline-block;margin-left:10px;margin-right: 10px">
-              <v-avatar :color="me ? me.color : 'indigo'" size="40px"><v-icon dark>mdi-account</v-icon></v-avatar>
-            </div>
+            <v-menu offset-y open-on-hover>
+              <template v-slot:activator="{ on, attrs }">
+                <div style="display:inline-block;margin-left:10px;margin-right: 10px" v-on="on" v-bind="attrs">
+                  <v-avatar :color="me ? me.color : 'indigo'" size="40px"><v-icon dark>mdi-account</v-icon></v-avatar>
+                </div>
+              </template>
+              <v-list  v-if="me">
+                <v-list-item @click="logout">
+                  <v-list-item-title>로그아웃</v-list-item-title>
+                </v-list-item>
+                <v-list-item :to="{ path: '/profile'}">
+                  <v-list-item-title>프로필</v-list-item-title>
+                </v-list-item>
+              </v-list>
+              <v-list v-else>
+                <v-list-item :to="{ path: '/login'}">
+                  <v-list-item-title>로그인</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
                 <v-tab to="/">Home</v-tab>

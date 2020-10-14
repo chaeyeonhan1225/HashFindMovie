@@ -61,6 +61,36 @@ router.get('/movie/:id', async (req, res, next) => {
     }
 });
 
+
+router.get('/:id/comments', async (req, res, next) => {
+    try {
+        const movie = await db.Movie.findOne({
+            where: { id: req.params.id },
+        });
+        if(movie) {
+        const fullComments = await db.Comment.findAll({
+            where: {
+                movieId: req.params.id,
+            },
+            include: [{
+                model: db.User,
+                attributes: ['nick','color'],
+            }],
+            order: [['createdAt','DESC']],
+        });
+        
+        return res.json(fullComments);
+    } else {
+        return res.status(404).json({
+            errorCode: 2,
+            message: "잘못된 접근입니다.",
+        });
+    }
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 router.post('/comment', isLoggedIn, async (req, res, next) => {
     console.log("요청들어옴!");
     console.log(req.body);
@@ -125,35 +155,6 @@ router.delete('/comment/:id',async(req,res,next)=>{
             });
         }
     } catch(error) {
-        console.error(error);
-    }
-});
-
-router.get('/:id/comments', async (req, res, next) => {
-    try {
-        const movie = await db.Movie.findOne({
-            where: { id: req.params.id },
-        });
-        if(movie) {
-        const fullComments = await db.Comment.findAll({
-            where: {
-                movieId: req.params.id,
-            },
-            include: [{
-                model: db.User,
-                attributes: ['nick','color'],
-            }],
-            order: [['createdAt','DESC']],
-        });
-        
-        return res.json(fullComments);
-    } else {
-        return res.status(404).json({
-            errorCode: 2,
-            message: "잘못된 접근입니다.",
-        });
-    }
-    } catch (error) {
         console.error(error);
     }
 });

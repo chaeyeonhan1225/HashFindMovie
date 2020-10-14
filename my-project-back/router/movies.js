@@ -27,6 +27,7 @@ router.get('/today', async (req, res, next) => {
         next(error);
     }
 });
+
 // 랜덤 영화
 router.get('/random', (req, res, next) => {
 
