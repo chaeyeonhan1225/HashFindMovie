@@ -10,7 +10,8 @@ const SignIn = () => import(/* webpackChunkName: "signup" */ "../views/SignIn.vu
 const SignUp = () => import(/* webpackChunkName: "signup" */ "../views/SignUp.vue");
 const Profile = () => import(/* webpackChunkName: "proflie" */ "../views/Profile.vue");
 const Likeds = () => import(/* webpackChunkName: "liked" */ "../views/LikedMovies.vue");
-const Comments = () => import(/* webpackChunkName: "liked" */ "../views/UserComments.vue");
+const Comments = () => import(/* webpackChunkName: "comments" */ "../views/UserComments.vue");
+const MovieSearch = () => import(/* webpackChunkName: "search" */ "../views/MovieSearch.vue")
 
 const isLoggedIn = () => (to,from,next) => {
   if(store.state.userStore.me) {
@@ -68,11 +69,17 @@ const routes = [
     beforeEnter: isLoggedIn(),
   },
   {
+    path: "/movie/search",
+    name: "MovieSearch",
+    component: MovieSearch,
+  },
+  {
     path: "/movie/:id",
     name: "Movie",
     component: () =>
     import(/* webpackChunkName: "liked" */ "../views/Movie.vue"),
   },
+ 
   {
     path: '/*',
     name: "Error",

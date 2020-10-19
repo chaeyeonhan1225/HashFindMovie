@@ -16,7 +16,7 @@ router.get('/today', async (req, res, next) => {
                 as: 'Likers',
                 attributes: ['id'],
             }],
-            limit: 3,
+            limit: 5,
             order: [
                 ['id', 'ASC'],
             ]

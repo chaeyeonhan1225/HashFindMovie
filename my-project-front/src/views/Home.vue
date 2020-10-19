@@ -7,10 +7,10 @@
     <div style="margin:8px 0px">
       <span>검색 키워드</span>
       <span v-for="(node) in getNodes" :key="node">
-        <v-chip color="green" small class="mx-1">{{node}}</v-chip>
+        <v-chip color="green" small class="mx-1" v-if="node.length > 0">{{node}}</v-chip>
       </span>
     </div>
-    <span>찾으시는 영화가 없나요? <a href="/">영화 추가하기</a></span>
+    <span>찾으시는 영화가 없나요? <a href="/movie/search">영화 추가하기</a></span>
     <today-movie></today-movie>
   </v-container>
 </template>

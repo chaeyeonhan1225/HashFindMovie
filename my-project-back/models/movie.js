@@ -4,14 +4,21 @@ module.exports = (sequelize,DataTypes) => {
             type: DataTypes.STRING(150),
             allowNull: false,
         },
-        openDt: {
+        subtitle: {
             type: DataTypes.STRING(150),
-            allowNull: true,
         },
-        movieCd: {
-            type:DataTypes.STRING,
-            allowNull: false,
-        }
+        genre: {
+            type: DataTypes.STRING(150),
+        },
+        country: {
+            type: DataTypes.STRING(12),
+        },
+        thumbnail: {
+            type: DataTypes.STRING(300),
+        },
+        pubDate: {
+            type: DataTypes.STRING(150),
+        },
     });
 
     Movie.associate = (db) => {

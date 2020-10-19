@@ -3,11 +3,11 @@
   <v-container class="pa-3" v-if="movie">
         <v-row>
             <v-col cols="12" md="5">
-                <h1>{{movie.title}}</h1>
+                <h1>{{movie.title}} ({{movie.pubDate}})</h1>
             <v-img :src="this.img_url" max-width="250" contain></v-img>
             </v-col>
             <v-col cols="12" md="7">
-                <h2>Subtitle</h2>
+                <h2 v-if="movie.subtitle">{{movie.subtitle}}</h2>
                 <div>영화 요약</div>
                 <div>출연진</div>
                 <div>인기 한줄평</div>

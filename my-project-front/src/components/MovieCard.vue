@@ -9,7 +9,7 @@
     > -->
       <div style="margin-left:5px">
         <h2 style="font-size:2.5rem;display:inline">{{this.movie.id}} </h2>
-        <h2 style="font-size:1.5rem;display:inline">{{this.movie.title}}</h2>
+        <h2 style="font-size:1.5rem;display:inline">{{this.movie.title}}({{this.movie.pubDate}})</h2>
       </div>
     <!-- </v-img> -->
     <v-container>

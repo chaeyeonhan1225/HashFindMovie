@@ -35,9 +35,9 @@
             
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
-                <v-tab to="/">Home</v-tab>
-                <v-tab to="/login">{{menu2}}</v-tab>
-                <v-tab to="/profile">Profile</v-tab>
+                <v-tab to="/" exact>Home</v-tab>
+                <v-tab to="/login" exact>{{menu2}}</v-tab>
+                <v-tab to="/profile" exact>Profile</v-tab>
               </v-tabs>  
             </template>
       </v-app-bar>
