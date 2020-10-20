@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <div>
-    <v-row v-if="me">
+    <v-row>
       <template v-for="m in this.liked">
           <v-col cols="12" md="4" :key="m.id">
             <MovieCard :movie="m" />
@@ -23,14 +23,6 @@ export default {
   },
   components: {
     MovieCard
-  },
-  computed: {
-    me() {
-      return this.$store.state.userStore.me;
-    },
-  },
-  created() {
-    console.log(this.liked);
   },
 }
 </script>

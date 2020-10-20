@@ -28,7 +28,7 @@
                 <h2 style="display:inline">좋아요 누른 영화</h2>
                 <router-link to="/profile/liked" style="margin-left: 10px">더보기</router-link>
               </span>
-                <!--LikedPreview :liked="movies"/-->
+                <LikedPreview :liked="movies"/>
               <h2 style="display:inline">나의 한줄 평</h2>
               <span style="margin-left:5px" v-if="me.comments">{{me.comments.length}}</span>
               <span class="ml-2"><v-btn icon @click="loadComments()"><v-icon>mdi-refresh</v-icon></v-btn></span>
@@ -53,7 +53,7 @@ export default {
   created() {
     return Promise.all([
       this.loadComments(),
-      // this.loadLikedPreview(),
+      this.loadLiked(),
     ]);
   },
   data() {
@@ -79,16 +79,19 @@ export default {
           console.log("댓글 불러오기 실패!");
         });
     },
-    loadLikedPreview() {
-      this.$store.dispatch('movieStore/loadLikedPreview')
+    loadLiked() {
+      this.$store.dispatch('movieStore/loadLiked', {
+        limit: 6,
+        offset: 0,
+      })
         .then((result)=>{
-        console.log(this.movies);
-        console.log("좋아요 누른 영화 불러오기 성공!");
+          console.log("좋아요 누른 영화 불러오기 성공!");
         })
         .catch((error)=>{
           console.error(error);
         });
     },
+
     onToggle(){
       this.toggleOn = !this.toggleOn;
       if (this.toggleOn){
@@ -97,6 +100,7 @@ export default {
         this.toggleIcon = "mdi-pencil-outline"
       }
     },
+
     onSubmitForm(){
       if(this.$refs.form.validate()){
         console.log(this.myinfo);
@@ -111,10 +115,14 @@ export default {
       }
     }
   },
+
   computed: {
     me() {
       return this.$store.state.userStore.me;
     },
+    movies() {
+      return this.$store.state.movieStore.Movies;
+    }
   }
 }
 </script>

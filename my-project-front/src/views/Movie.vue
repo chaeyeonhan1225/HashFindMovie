@@ -7,7 +7,10 @@
             <v-img :src="this.img_url" max-width="250" contain></v-img>
             </v-col>
             <v-col cols="12" md="7">
-                <h2 v-if="movie.subtitle">{{movie.subtitle}}</h2>
+                <span>
+                    <h2 v-if="movie.subtitle" style="display:inline">{{movie.subtitle}}</h2>
+                    <v-icon class="ml-1" style="bottom: 5px" color="pink">{{heartIcon}}</v-icon>
+                </span>
                 <div>영화 요약</div>
                 <div>출연진</div>
                 <div>인기 한줄평</div>
@@ -91,7 +94,13 @@ export default {
         },
         movie() {
             return this.$store.state.movieStore.movie;
-        }
+        },
+        liked() {
+            return this.me && this.movie && this.movie.Likers.find(x => x.id === this.me.id) ? true : false;
+        },
+        heartIcon() {
+            return this.liked ? 'mdi-heart' : 'mdi-heart-outline';
+        },
     }
 }
 </script>

@@ -91,7 +91,7 @@ const userStore = {
             });
         },
         loadComments({ commit },payload) {
-            axios.get(`http://localhost:3001/auth/comments?limit=${payload.limit}&offset=${payload.offset}`,{
+            axios.get(`http://localhost:3001/profile/comments?limit=${payload.limit}&offset=${payload.offset}`,{
                 withCredentials: true,
             })
             .then((result) => {

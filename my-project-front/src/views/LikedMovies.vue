@@ -29,7 +29,10 @@ export default {
     },
     methods: {
         loadLiked() {
-            return this.$store.dispatch('movieStore/loadLiked')
+            return this.$store.dispatch('movieStore/loadLiked', {
+                limit: 10,
+                offset: 0,
+            })
                 .then((result)=>{
                     // console.log(this.movies);
                     console.log("좋아요 누른 영화 불러오기 성공!");
