@@ -19,10 +19,6 @@ export default {
     components: {
         UserComment,
     },
-    computed: {
-        me() {
-            return this.$store.state.userStore.me;
-        }
-    }
+    
 }
 </script>

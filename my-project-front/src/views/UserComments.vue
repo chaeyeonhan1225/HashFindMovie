@@ -2,22 +2,31 @@
 <template>
   <v-container v-if="me">
     <h1>{{me.nick}}님의 한줄평 목록</h1>
-    <template v-for="c in me.comments">
-      <Comment :comment="c" :key="c.id"/>
-    </template>
+      <CommentsPreview :comments="me.comments"/>
+      <div class="text-center mt-3">
+        <v-pagination
+          v-model="page"
+          :length="4"
+        ></v-pagination>
+      </div>
   </v-container>    
 </template>
 
 <script>
 /* eslint-disable */
-import Comment from '../components/Comment';
+import CommentsPreview from '../components/CommentsPreview';
 
 export default {
   components: {
-    Comment
+    CommentsPreview
   },
   created() {
     return this.loadComments();
+  },
+  data() {
+    return {
+      page: 1,
+    }
   },
   methods: {
     loadComments() {

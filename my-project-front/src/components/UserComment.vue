@@ -1,6 +1,6 @@
 <!-- eslint-disable -->
 <template>
-  <v-card outlined style="margin-top: 6px" v-if="me">
+  <v-card outlined style="margin-top: 6px">
     <v-container class="pa-2">
       <v-icon style="position: absolute; right: 5px" @click="removeComment()">mdi-close</v-icon>
       <div style="display:flex;">
