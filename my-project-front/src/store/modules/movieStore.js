@@ -7,6 +7,7 @@ const movieStore = {
   state: {
     Movies: [],
     RandomMovies: [],
+    SearchResults: [],
     movie: null,
   },
   mutations: {
@@ -44,6 +45,9 @@ const movieStore = {
       const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
       state.Movies[index].Likers.splice(user,1);
     },
+    setResults(state, payload) {
+      state.SearchResults = JSON.parse(payload).items;
+    }
   },
   actions: {
     loadMovies({
@@ -140,6 +144,18 @@ const movieStore = {
       }).catch((error) => {
         console.error(error);
       });
+    },
+    searchMovie({ commit }, payload ) {
+      console.log("실행");
+      console.log(payload);
+      axios.post(`http://localhost:3001/movies/search`, payload, {
+        withCredentials: true,
+      }).then((result) => {
+        console.log(result.data);
+        commit('setResults', result.data);
+      }).catch((error) => {
+        console.error(error);
+      })
     }
   },
 };
