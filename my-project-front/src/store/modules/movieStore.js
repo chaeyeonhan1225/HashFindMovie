@@ -46,7 +46,7 @@ const movieStore = {
       state.Movies[index].Likers.splice(user,1);
     },
     setResults(state, payload) {
-      state.SearchResults = JSON.parse(payload).items;
+      state.SearchResults = payload;
     }
   },
   actions: {

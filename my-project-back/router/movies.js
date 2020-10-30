@@ -56,7 +56,29 @@ router.post('/search', async (req,res,next) => {
 
     const result = await got(req_url,options);
     // console.log(result.body);
-    return res.json(result.body);
+    
+    let movies = [];
+    // console.log(result.body);
+
+    JSON.parse(result.body).items.map(movieInfo => {
+        const movie = {
+            title: movieInfo.title.replace(/(<([^>]+)>)/ig,''),
+            subtitle: movieInfo.subtitle.replace(/(<([^>]+)>)/ig,''),
+            link: movieInfo.link,
+            image: movieInfo.image,
+            pubDate: movieInfo.pubDate,
+            director: movieInfo.director.split('|').filter(x => x !== ''),
+            actor: movieInfo.actor.split('|').filter(x => x !== ''),
+            userRating: parseFloat(movieInfo.userRating),
+        };
+        movies.push(movie);
+    })
+    
+    movies.sort((a, b) => {
+        return b.userRating - a.userRating;
+    })
+    console.log(movies);
+    return res.json(movies);
 });
 
 module.exports = router;

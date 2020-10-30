@@ -1,16 +1,43 @@
 <template>
     <v-card class="pt-10 mt-8">
+        <v-icon class="plusbtn">mdi-plus</v-icon>
         <div class="img-card">
            <v-img v-if="movie.image" :src="movie.image" class="img-content" max-height=80px aspect-ratio></v-img>
            <div v-else class="noimage">no image</div> 
         </div>
-        <v-card-title>{{movie.title}}</v-card-title>
+        
+        <v-card-title><a :href="movie.link" target="_blank">{{movie.title}} ({{movie.pubDate}})</a></v-card-title>
         <v-card-subtitle>{{movie.subtitle}}</v-card-subtitle>
-        <v-card-text>{{movie.director}}{{movie.actor}}</v-card-text>
+        <v-card-text>
+          <div>
+            감독
+            <template v-for="d in movie.director">
+              <v-chip small :key="d" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{d}}</v-chip>
+            </template>
+          </div>
+          <div class="mt-1">
+            출연진
+            <template v-for="a in movie.actor">
+              <v-chip small :key="a" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{a}}</v-chip>
+            </template>
+          </div>
+          <div class="mt-1">
+              <v-icon small color="orange">mdi-star</v-icon>
+              {{movie.userRating}}
+          </div>
+        </v-card-text>
     </v-card>
 </template>
 
 <style scoped>
+    a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+    a:hover {
+        color: #00bfff;
+    }
     .img-card {
         position: absolute;
         top: -30px;
@@ -30,6 +57,15 @@
         background-color: white;
         color: #c9c9c9;
         box-shadow: 0px 3px 5px rgba(0,0,0,0.3);
+    }
+    .plusbtn {
+        position: absolute;
+        color: grey;
+        top: 8px;
+        right: 8px;
+    }
+    .plusbtn:hover {
+        color: #00bfff;
     }
 </style>
 
