@@ -1,6 +1,7 @@
 <template>
-    <v-card class="pt-10 mt-8">
-        <v-icon class="plusbtn">mdi-plus</v-icon>
+    <div>
+      <v-card class="pt-10 mt-8">
+        <v-icon class="plusbtn" @click="showModal()">mdi-plus</v-icon>
         <div class="img-card">
            <v-img v-if="movie.image" :src="movie.image" class="img-content" max-height=80px aspect-ratio></v-img>
            <div v-else class="noimage">no image</div> 
@@ -26,7 +27,39 @@
               {{movie.userRating}}
           </div>
         </v-card-text>
-    </v-card>
+      </v-card>
+      <v-dialog 
+        v-model="dialog"
+        max-width="500"
+      >
+        <v-card class="pa-5">
+          <h2>이 영화가 맞나요?</h2>
+            <v-card flat outlined class="ma-2">
+              <v-card-title><a :href="movie.link" target="_blank">{{movie.title}} ({{movie.pubDate}})</a></v-card-title>
+              <v-card-subtitle>{{movie.subtitle}}</v-card-subtitle>
+              <v-card-text>
+                <div>
+                  감독
+                  <template v-for="d in movie.director">
+                    <v-chip small :key="d" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{d}}</v-chip>
+                  </template>
+                </div>
+                <div class="mt-1">
+                출연진
+                  <template v-for="a in movie.actor">
+                    <v-chip small :key="a" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{a}}</v-chip>
+                  </template>
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="closeModal()">취소</v-btn>
+                <v-btn color="green darken-1" text @click="registerMovie()">등록</v-btn>
+            </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
 </template>
 
 <style scoped>
@@ -76,6 +109,30 @@ export default {
         movie: {
             type: Object,
         }
+    },
+    data() {
+        return {
+            dialog: false
+        }
+    },
+    methods: {
+        showModal() {
+            this.dialog = true;
+        },
+        closeModal() {
+            this.dialog = false;
+        },
+        registerMovie() {
+            // 영화 등록
+            this.$store.dispatch('movieStore/registerMovie', this.movie)
+              .then((result) => {
+                console.log(result,"영화 등록 성공!");
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+        }
+        
     }
 }
 </script>

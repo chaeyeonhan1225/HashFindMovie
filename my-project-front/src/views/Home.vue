@@ -12,19 +12,20 @@
     </div>
     <span>찾으시는 영화가 없나요? <a href="/movie/search">영화 추가하기</a></span>
     <today-movie></today-movie>
+    <latest-movies></latest-movies>
   </v-container>
 </template>
 
 <script>
 /* eslint-disable */
 import TodayMovie from "../components/TodayMovie";
-import RandomMovie from "../components/RandomMovie";
+import LatestMovies from "../components/LatestMovies";
 
 export default {
   name: "Home",
   components: {
     TodayMovie,
-    RandomMovie,
+    LatestMovies,
   },
   data() {
     return {

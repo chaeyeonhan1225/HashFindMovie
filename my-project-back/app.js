@@ -12,12 +12,14 @@ const authRouter = require('./router/auth');
 const moviesRouter = require('./router/movies');
 const postRouter = require('./router/post');
 const profileRouter = require('./router/profile');
+const movieRouter = require('./router/movie');
 
 require('dotenv').config();
 
 const app = express();
-sequelize.sync({});
+
 passportConfig(passport);
+sequelize.sync();
 
 app.use(cors({
     origin: 'http://localhost:8080',
@@ -52,6 +54,7 @@ app.use('/auth',authRouter);
 app.use('/movies',moviesRouter);
 app.use('/post',postRouter);
 app.use('/profile',profileRouter);
+app.use('/movie',movieRouter);
 
 
 

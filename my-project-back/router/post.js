@@ -49,7 +49,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/movie/:id', async (req, res, next) => {
     try {
-        const movies = await db.Movie.findOne({
+        const movie = await db.Movie.findOne({
             where: {
                 id: req.params.id
             },
@@ -65,7 +65,22 @@ router.get('/movie/:id', async (req, res, next) => {
                 attributes: ['id'],
             }],
         });
-        return res.json(movies);
+        // 인기 한줄평
+        const comments = await db.Comment.findAll({
+            where: {
+                movieId: req.params.id
+            },
+            limit: 3,
+            include: [{
+                model: db.User,
+                attributes: ['nick', 'color'],
+            }],
+            order: [['createdAt', 'ASC']]
+        });
+        return res.json({
+            movie: movie,
+            comments: comments,
+        });
     } catch (error) {
         console.error(error);
         next(error);

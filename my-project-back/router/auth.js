@@ -8,14 +8,14 @@ const ColorHash = require('color-hash');
 const router = express.Router();
 
 router.get('/user',async (req,res,next)=>{
-    // console.log('/user 실행!');
+    console.log('/user 실행!');
     const user = req.user;
     // console.log(req.session);
     if(user){
         return res.json(user);
     } else {
         return res.json({
-            errCode: 1,
+            errorCode: 1,
             message: "유저가 로그인하지 않았습니다."
         });
     }
@@ -36,6 +36,7 @@ router.post('/login',async (req,res,next)=>{
             console.error(authError);
         }
         if(!user){
+            console.log("user가 없습니다.");
             return;
         } 
         return req.login(user,async (loginError)=>{
@@ -69,16 +70,16 @@ router.post('/signup',async (req,res,next)=>{
         const colorHash = new ColorHash();
         if(exUser){
             return res.status(403).json({
-                status: "reject",
-                code: 1,
+                errorCode: 2,
                 message: "이미 등록된 이메일입니다."
             });
         } 
+        
         const newUser = await User.create({
             email: email,
             nick: nickname,
             password: hash,
-            color: colorHash.hex(Date.now().toString()+email),
+            color: colorHash.hex(Math.random().toString(16)),
         });
         console.log(newUser);
             
@@ -109,24 +110,27 @@ router.post('/signup',async (req,res,next)=>{
                 res.json(fullUser);
             });
         })(req,res,next);        
-    } catch(err) {
-        console.error(err);
+    } catch(error) {
+        next(error);
     }
 });
 
 router.patch('/userinfo',async (req,res,next)=>{
-    console.log(req.user);
-    const result = await User.update({
-        info: req.body.userInfo
-    },{
-        where: { id: req.user.id }
-    });
-    console.log(req.user);
-    if(result){
-        console.log("result: ",result);
-        return res.status(200).json({
+    try {
+        const result = await User.update({
             info: req.body.userInfo
+        },{
+            where: { id: req.user.id }
         });
+       
+        if(result){
+            console.log("result: ",result);
+            return res.status(200).json({
+                info: req.body.userInfo
+            });
+        }
+    } catch (error) {
+        next(error);
     }
 });
 

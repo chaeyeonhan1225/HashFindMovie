@@ -1,12 +1,14 @@
 <!-- eslint-disable -->
 <template>
   <v-container v-if="me">
-    <h1>{{me.nick}}님의 한줄평 목록</h1>
+    <h1 style="display: inline">{{me.nick}}님의 한줄평 목록</h1>
+    <span class="ml-1">{{me.cnt}}</span>
       <CommentsPreview :comments="me.comments"/>
       <div class="text-center mt-3">
         <v-pagination
           v-model="page"
-          :length="4"
+          :length="parseInt(me.cnt / 10, 10) + 1"
+          @input="nextPage()"
         ></v-pagination>
       </div>
   </v-container>    
@@ -32,7 +34,14 @@ export default {
     loadComments() {
       return this.$store.dispatch('userStore/loadComments',{
         offset: 0,
-        limit: 100,
+        limit: 10,
+      });
+    },
+    nextPage() {
+      console.log("next");
+      return this.$store.dispatch('userStore/loadComments',{
+        offset: (this.page - 1) * 10,
+        limit: 10,
       });
     }
   },

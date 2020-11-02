@@ -19,14 +19,32 @@ router.get('/comments', async (req,res,next)=>{
             }],
             order: [['updatedAt','DESC']],
         });
+        
+        const cnt = await db.Comment.count({
+            where: { userId: req.user.id }
+        });
+
         if(comments) {
-            return res.status(200).json(comments);
+            return res.status(200).json({
+                comments: comments,
+                cnt: cnt
+            });
         }
+
     } catch (error) {
         console.error(error);
     }
 });
 
+router.get('/comments/length', async (req,res,next) => {
+    try {
+        const cnt = await db.Comment.count({
+            where: { userId: req.user.id }
+        });
+    } catch(error) {
+
+    }
+});
 
 router.get('/movie', async (req,res,next)=>{
     try {

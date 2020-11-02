@@ -20,7 +20,7 @@
       </v-row>
       <v-row>
           <template v-for="m in this.results">
-            <v-col cols="12" md="6" :key="m">
+            <v-col cols="12" md="6" :key="m.id">
               <SearchMovieCard :movie="m"/>
             </v-col>
           </template>
@@ -83,4 +83,5 @@ export default {
         }
     }
 }
+
 </script>

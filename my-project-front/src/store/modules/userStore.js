@@ -7,6 +7,7 @@ const userStore = {
     state: {
         me: null,
         comments: [],
+        cnt: 0,
     },
     mutations: {
         setMe(state, payload) {
@@ -19,7 +20,8 @@ const userStore = {
             state.me.info = payload.info;
         },
         setComments(state,payload) {
-            state.me.comments = payload;
+            state.me.comments = payload.comments;
+            state.me.cnt = payload.cnt;
         },
         
     },

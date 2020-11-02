@@ -2,18 +2,34 @@
 <template>
   <v-container class="pa-3" v-if="movie">
         <v-row>
-            <v-col cols="12" md="5">
+            <v-col cols="12" md="4">
                 <h1>{{movie.title}} ({{movie.pubDate}})</h1>
-            <v-img :src="this.img_url" max-width="250" contain></v-img>
+            <div >
+              <v-img :src="movie.image" max-width="250" class="mt-2" style="border-radius:15px" contain></v-img>
+            </div>
             </v-col>
-            <v-col cols="12" md="7">
+            <v-col cols="12" md="8">
                 <span>
                     <h2 v-if="movie.subtitle" style="display:inline">{{movie.subtitle}}</h2>
                     <v-icon class="ml-1" style="bottom: 5px" color="pink">{{heartIcon}}</v-icon>
                 </span>
-                <div>영화 요약</div>
-                <div>출연진</div>
-                <div>인기 한줄평</div>
+               <div>
+                  감독
+                  <template v-for="d in movie.director.split('|')">
+                    <v-chip small :key="d" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{d}}</v-chip>
+                  </template>
+                </div>
+                <div class="mt-1">
+                출연진
+                  <template v-for="a in movie.actor.split('|')">
+                    <v-chip small :key="a" class="ml-1 mt-1" label color="#edebeb" text-color="blue">{{a}}</v-chip>
+                  </template>
+                </div>
+                <div class="mt-2">인기 한줄평
+                  <template v-for="(c,index) in movieComments">
+                    <Comment :comment="c" :key="index"/>
+                  </template>
+                </div>
             </v-col>
         </v-row>
         <div>
@@ -60,8 +76,7 @@ export default {
         return {
             content: "",
             successMessage: "",
-            success: false,
-            img_url: ""    
+            success: false,   
         }
     },
     methods: {
@@ -94,6 +109,9 @@ export default {
         },
         movie() {
             return this.$store.state.movieStore.movie;
+        },
+        movieComments() {
+            return this.$store.state.movieStore.movieComments;
         },
         liked() {
             return this.me && this.movie && this.movie.Likers.find(x => x.id === this.me.id) ? true : false;

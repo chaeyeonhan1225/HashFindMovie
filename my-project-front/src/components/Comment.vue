@@ -8,9 +8,12 @@
           <v-avatar :color="comment.user.color">{{comment.user.nick}}</v-avatar>
         </span>
         <span style="margin-left: 10px">
-          <div style="font-weight:bold">
+          <div style="display:inline; font-weight:bold">
             <span>{{comment.user.nick}}</span>
           </div>
+          <span class="ml-2">
+            <v-icon small>mdi-thumb-up-outline</v-icon>
+          </span>
           <div style="font-size: 14px;">
             {{comment.content}}
           </div>

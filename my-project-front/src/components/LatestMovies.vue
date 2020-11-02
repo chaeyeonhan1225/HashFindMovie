@@ -1,12 +1,12 @@
 <!-- eslint-disable -->
 <template>
-  <div v-if="todaymovies">
+  <div v-if="latestmovies">
     <!--<MovieCarousels />-->
     <v-container style="margin-bottom: 10px;margin-top: 20px">
-     <h1><span class="mark_pen-yellow">오늘의 영화</span></h1>
-      <v-container v-if="todaymovies.length > 0">
+     <h1><span class="mark_pen-orange">최근에 추가된 영화</span></h1>
+      <v-container v-if="latestmovies.length > 0">
         <v-row>
-          <v-col v-for="m in todaymovies" :key="m.id" cols="12" md="4">
+          <v-col v-for="m in latestmovies" :key="m.id" cols="12" md="4">
             <MovieCard v-if = m :movie="m"></MovieCard>
           </v-col>
         </v-row>
@@ -36,12 +36,12 @@
     },
     methods: {
       fetchMovies() {
-        this.$store.dispatch('movieStore/loadTodayMovies');
+        this.$store.dispatch('movieStore/loadLatestMovies');
       }
     },
     computed: {
-      todaymovies() {
-        return this.$store.state.movieStore.TodayMovies;
+      latestmovies() {
+        return this.$store.state.movieStore.LatestMovies;
       },
       me() {
         return this.$store.state.userStore.me;

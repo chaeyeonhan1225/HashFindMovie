@@ -1,37 +1,55 @@
 /* eslint-disable */
 import axios from 'axios';
 import Vue from 'vue';
+import movie from '../../../../my-project-back/models/movie';
 
 const movieStore = {
   namespaced: true,
   state: {
     Movies: [],
-    RandomMovies: [],
+    TodayMovies: [],
+    LatestMovies: [],
     SearchResults: [],
     movie: null,
+    movieComments: [],
   },
   mutations: {
+    // 화면에 표시하는 영화가 여러개 일때
     setMovies(state, payload) {
       state.Movies = payload;
     },
+    // 화면에 표시하는 영화가 1개 일때
     setMovie(state,payload) {
-      state.movie = payload;
+      state.movie = payload.movie;
+      state.movieComments = payload.comments;
     },
+    // 메인 화면의 오늘의 영화
+    setTodayMovies(state,payload) {
+      state.TodayMovies = payload;
+    },
+    // 메인 화면의 최근에 추가된 영화
+    setLatestMovies(state, payload) {
+      state.LatestMovies = payload;
+    },
+    // 메인 화면의 랜덤 영화
     setRandomMovies(state,payload) {
       state.RandomMovies = payload;
     },
+    // 댓글 
     loadComments(state,payload) {
       console.log("payload",payload);
-      // const index = state.movie.findIndex(v => v.id == payload.movieId);
       Vue.set(state.movie,'comments',payload.comments);    
     },
+    // 댓글 추가
     addComment(state,payload) {
       state.movie.comments.unshift(payload);
     },
+    // 댓글 삭제
     removeComment(state,payload) {
       const index = state.movie.comments.findIndex(v => v.id == payload.commentId);
       state.movie.comments.splice(index,1);
     },
+    // 영화 좋아요
     likeMovie(state,payload) {
       console.log(payload);
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
@@ -39,26 +57,38 @@ const movieStore = {
         id: payload.userId
       });
     },
+    // 영화 좋아요 취소
     unlikeMovie(state,payload) {
       console.log(payload);
       const index = state.Movies.findIndex(v => v.id == payload.movieId);
       const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
       state.Movies[index].Likers.splice(user,1);
     },
+    // 검색한 영화 정보 저장
     setResults(state, payload) {
       state.SearchResults = payload;
     }
   },
   actions: {
-    loadMovies({
+    loadTodayMovies({
       commit
     }) {
       axios.get('http://localhost:3001/movies/today', {
         withCredentials: true,
       }).then((result) => {
         console.log(result.data);
-        commit('setMovies', result.data);
+        commit('setTodayMovies', result.data);
       }).catch((error) => {
+        console.error(error);
+      });
+    },
+    loadLatestMovies({ commit }) {
+      axios.get('http://localhost:3001/movies/latest', {
+        withCredentials: true,
+      }).then((result) => {
+        console.log(result.data);
+        commit('setLatestMovies', result.data);
+      }).catch((error)=> {
         console.error(error);
       });
     },
@@ -155,7 +185,18 @@ const movieStore = {
         commit('setResults', result.data);
       }).catch((error) => {
         console.error(error);
-      })
+      });
+    },
+    registerMovie({ commit }, payload) {
+      console.log("영화 등록");
+      console.log(payload);
+      axios.post("http://localhost:3001/movie", payload, {
+        withCredentials: true,
+      }).then((result) => {
+        console.log(result.data);
+      }).catch((error) => {
+        console.error(error);
+      });
     }
   },
 };

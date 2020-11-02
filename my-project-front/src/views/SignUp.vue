@@ -1,7 +1,7 @@
 <!-- eslint-disable -->
 <template>
   <v-container>
-    <v-banner>
+    <v-card outlined>
       <div style="text-align:center;padding:50px 120px">
         <h2 style="margin-bottom: 12px"><span class="mark_pen-blue">회원가입</span></h2>
         <h3><span>회원 정보</span>를 입력하세요</h3>
@@ -13,6 +13,7 @@
               outlined />
             <v-text-field v-model="nickname" label="닉네임" :rules="nicknameRules" required outlined />
             <v-checkbox v-model="terms" label="약관에 동의하시겠습니까?" :rules="[v=>!!v||'약관에 동의해야합니다.']" reuired />
+            <v-alert dense outlined type="error">이미 가입된 이메일입니다.</v-alert>
             <v-row align="center" justify="end">
               <v-btn color="indigo lighten-1" type="submit" text x-large>
                 SUBMIT
@@ -24,7 +25,7 @@
           </v-form>
         </div>
       </div>
-    </v-banner>
+    </v-card>
   </v-container>
 </template>
 
