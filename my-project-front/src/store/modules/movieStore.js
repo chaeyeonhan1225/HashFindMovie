@@ -195,7 +195,7 @@ const movieStore = {
       }).then((result) => {
         console.log(result.data);
       }).catch((error) => {
-        console.error(error);
+        return error;
       });
     }
   },

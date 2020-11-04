@@ -36,13 +36,30 @@ router.get('/comments', async (req,res,next)=>{
     }
 });
 
-router.get('/comments/length', async (req,res,next) => {
-    try {
-        const cnt = await db.Comment.count({
-            where: { userId: req.user.id }
-        });
-    } catch(error) {
 
+router.delete('/comment/:id', async (req, res, next) => {
+    try {
+        const commentId = req.params.id;
+        const comment = await db.Comment.findOne({
+            where: { id: commentId }
+        });
+
+        if (comment) {
+            await db.Comment.destroy({
+                where: { id: comment.id }
+            });
+
+            return res.status(200).json({
+                id: commentId
+            });
+        }
+
+        return res.status(403).json({
+            message: "존재하지 않는 댓글입니다."
+        });
+
+    } catch (error) {
+        next(error);
     }
 });
 

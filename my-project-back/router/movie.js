@@ -28,7 +28,7 @@ router.post('/', async (req, res, next) => {
 
         // 이미 등록된 영화라면
         if (exMovie) {
-            return res.status(404).json({
+            return res.status(403).json({
                 errorCode: 3,
                 message: "이미 등록된 영화입니다."
             });

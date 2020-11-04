@@ -52,6 +52,26 @@
                 </div>
               </v-card-text>
             </v-card>
+            <v-alert
+              v-model="registerSuccessed"
+              type="success"
+              dense
+              text
+              icon="mdi-check"
+              dismissible
+            >
+            성공적으로 등록되었습니다!
+            </v-alert>
+            <v-alert
+              v-model="registerFailed"
+              type="error"
+              dense
+              text
+              icon="mdi-alert-circle"
+              dismissible
+            >
+            이미 등록된 영화입니다!
+            </v-alert>
             <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="green darken-1" text @click="closeModal()">취소</v-btn>
@@ -112,7 +132,9 @@ export default {
     },
     data() {
         return {
-            dialog: false
+            dialog: false,
+            registerSuccessed: false,
+            registerFailed: false
         }
     },
     methods: {
@@ -126,9 +148,12 @@ export default {
             // 영화 등록
             this.$store.dispatch('movieStore/registerMovie', this.movie)
               .then((result) => {
-                console.log(result,"영화 등록 성공!");
+                this.registerSuccessed = true;
+                console.log(result);
+
               })
               .catch((error) => {
+                this.registerFailed = true;
                 console.error(error);
               });
         }

@@ -4,9 +4,11 @@
       <v-container>
         <v-row>
             <div style="margin-right:20px">
-              <v-avatar :color="me ? me.color : 'indigo'" width="100px" height="100px">
+              <v-icon style="position: relative; top: 40px; left: 100px;z-index: 2;" large color="black">mdi-camera</v-icon>
+              <v-avatar :color="me ? me.color : 'indigo'" style="position: relative; z-index: 1" width="100px" height="100px">
                 <v-icon dark x-large>mdi-account</v-icon>
               </v-avatar>
+              
             </div>
             <div v-if="me" style="min-width: 500px">
               <h1><span class="mark_pen-yellow" v-if="me!==null">{{ me.nick }}</span>님</h1>

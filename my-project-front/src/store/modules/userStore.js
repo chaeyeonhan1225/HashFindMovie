@@ -23,6 +23,10 @@ const userStore = {
             state.me.comments = payload.comments;
             state.me.cnt = payload.cnt;
         },
+        removeComment(state, payload) {
+            const index = state.me.comments.findIndex(v => v.id == payload.id);
+            state.me.comments.splice(index,1);  
+        }
         
     },
     actions: {
@@ -102,8 +106,19 @@ const userStore = {
             })
             .catch((error)=>{
                 console.error(error);
-            })
+            });
         },
+        removeComment({ commit }, payload) {
+            axios.delete(`http://localhost:3001/profile/comment/${payload.id}`, {
+                withCredentials: true,
+            })
+            .then((result) => {
+                commit('removeComment', result.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+        }
     }
 }
 

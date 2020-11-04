@@ -35,8 +35,8 @@ export default {
     removeComment() {
       console.log(this.comment);
       if(confirm("댓글을 삭제하시겠습니까?")){
-        this.$store.dispatch('movieStore/removeComment',{
-          commentId: this.comment.id,
+        this.$store.dispatch('userStore/removeComment',{
+          id: this.comment.id,
         }).then((result) => {
           console.log("댓글 삭제 성공");
         }).catch((error) => {
