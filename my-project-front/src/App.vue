@@ -7,7 +7,7 @@
             flat
             color="white">
             <v-spacer></v-spacer>
-            <h1 id="title">TodayMovie</h1>
+            <h1 id="title">MOVIE SHOP</h1>
             <v-spacer></v-spacer>
             <div style="display:inline-block;" v-if="me !== null">
               <span class="mark_pen-yellow">{{me.nick}}</span>
@@ -36,6 +36,7 @@
             <template v-slot:extension>
               <v-tabs centered slider-color="blue">
                 <v-tab to="/" exact>Home</v-tab>
+                 <v-tab to="/movies" exact>Movies</v-tab>
                 <v-tab to="/login" exact>{{menu2}}</v-tab>
                 <v-tab to="/profile" exact>Profile</v-tab>
               </v-tabs>  

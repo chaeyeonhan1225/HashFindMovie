@@ -6,6 +6,7 @@ import store from '../store/index';
 
 Vue.use(VueRouter);
 
+const Movies = () => import(/* webpackChunkName: "signup" */ "../views/Movies.vue");
 const SignIn = () => import(/* webpackChunkName: "signup" */ "../views/SignIn.vue");
 const SignUp = () => import(/* webpackChunkName: "signup" */ "../views/SignUp.vue");
 const Profile = () => import(/* webpackChunkName: "proflie" */ "../views/Profile.vue");
@@ -79,7 +80,11 @@ const routes = [
     component: () =>
     import(/* webpackChunkName: "liked" */ "../views/Movie.vue"),
   },
- 
+  {
+    path: "/movies",
+    name: "Movie",
+    component: Movies,
+  },
   {
     path: '/*',
     name: "Error",

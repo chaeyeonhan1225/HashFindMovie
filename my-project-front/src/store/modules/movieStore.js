@@ -52,17 +52,53 @@ const movieStore = {
     // 영화 좋아요
     likeMovie(state,payload) {
       console.log(payload);
-      const index = state.Movies.findIndex(v => v.id == payload.movieId);
-      state.Movies[index].Likers.push({
-        id: payload.userId
-      });
+
+      let index = state.Movies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        console.log(index, state.Movies);
+        state.Movies[index].Likers.push({
+          id: payload.userId
+        });
+      }
+
+      index = state.TodayMovies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        console.log(index, state.TodayMovies);
+        state.TodayMovies[index].Likers.push({
+          id: payload.userId
+        });
+      }
+      index = state.LatestMovies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        console.log(index, state.LatestMovies);
+        state.LatestMovies[index].Likers.push({
+          id: payload.userId
+        });
+      }
     },
     // 영화 좋아요 취소
     unlikeMovie(state,payload) {
       console.log(payload);
-      const index = state.Movies.findIndex(v => v.id == payload.movieId);
-      const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
-      state.Movies[index].Likers.splice(user,1);
+
+      index = state.Movies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        console.log("Movies에서 삭제!");
+        const user = state.Movies[index].Likers.findIndex(v => v.id == payload.userId);
+        state.Movies[index].Likers.splice(user,1);
+      }
+
+      let index = state.TodayMovies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        const user = state.TodayMovies[index].Likers.findIndex(v => v.id == payload.userId);
+        state.TodayMovies[index].Likers.splice(user,1);
+      }
+
+      index = state.LatestMovies.findIndex(v => v.id == payload.movieId);
+      if (index >= 0) {
+        const user = state.LatestMovies[index].Likers.findIndex(v => v.id == payload.userId);
+        state.LatestMovies[index].Likers.splice(user,1);
+      }
+
     },
     // 검색한 영화 정보 저장
     setResults(state, payload) {

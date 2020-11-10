@@ -54,9 +54,14 @@
             <h3 style="display:inline">한줄평 전체보기</h3>
             <span style="font-size: 14px;margin-left: 5px;">{{movie.comments.length}}</span>
         </div>
-        <template v-for="(c,index) in movie.comments">
-          <Comment :comment="c" :key="index"/>
-        </template>
+        <div v-if="movie.comments.length > 0">
+          <template v-for="(c,index) in movie.comments">
+            <Comment :comment="c" :key="index"/>
+          </template>
+        </div>
+        <div v-else>
+          등록된 한줄평이 없습니다! 한줄평을 남겨보세요!
+        </div>
     </v-card>
     </div>
   </v-container>
