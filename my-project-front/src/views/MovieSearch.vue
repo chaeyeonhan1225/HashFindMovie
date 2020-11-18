@@ -24,7 +24,9 @@
               <SearchMovieCard :movie="m"/>
             </v-col>
           </template>
+          
       </v-row>
+      <div class="more-btn" v-if="results.length == 10">더 보기</div>
   </div>
 </template>
 
@@ -85,3 +87,13 @@ export default {
 }
 
 </script>
+
+<style>
+    .more-btn {
+        text-align: center;
+        background-color: lightblue;
+        margin-top: 15px;
+        padding: 10px 20px;
+        border-radius: 10px;
+    }
+</style>
