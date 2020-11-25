@@ -71,6 +71,8 @@ router.get('/latest', async (req, res, next) => {
 // 영화 찾기 
 router.post('/search', async (req,res,next) => {
     const { title, genre, country } = req.body;
+    const limit = req.query.limit;
+    const offset = req.query.offset;
     let req_url = "https://openapi.naver.com/v1/search/movie.json";
     req_url += `?query=${title}`;
     
@@ -81,6 +83,8 @@ router.post('/search', async (req,res,next) => {
     if (country) {
         req_url += `&country=${country}`
     }
+
+    req_url += `&start=${offset}`;
 
     console.log(req_url);
 

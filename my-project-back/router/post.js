@@ -9,44 +9,6 @@ const {
 } = require('./profile');
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
-    try {
-        await db.Movie.create({
-            title: "알라딘",
-            subtitle: "Aladdin",
-            pubDate: "2019"
-
-        });
-        await db.Movie.create({
-            title: "인터스텔라",
-            subtitle: "Interstella",
-            pubDate: "2014",
-
-        });
-        await db.Movie.create({
-            title: "악마는 프라다를 입는다",
-            subtitle: "The Devil Wears Prada",
-            pubDate: "2006",
-        });
-
-        await db.Movie.create({
-            title: "노팅힐",
-            subtitle: "Notting Hill",
-            pubDate: "1999",
-        });
-        await db.Movie.create({
-            title: "인셉션",
-            subtitle: "Inception",
-            pubDate: "2010",
-        });
-        return res.status(200).json({
-            message: "db생성 성공!",
-        });
-    } catch (err) {
-        console.error(err);
-    }
-});
-
 router.get('/movie/:id', async (req, res, next) => {
     try {
         const movie = await db.Movie.findOne({

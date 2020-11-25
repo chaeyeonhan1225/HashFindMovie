@@ -1,7 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
 import Vue from 'vue';
-import movie from '../../../../my-project-back/models/movie';
 
 const movieStore = {
   namespaced: true,
@@ -102,7 +101,7 @@ const movieStore = {
     },
     // 검색한 영화 정보 저장
     setResults(state, payload) {
-      state.SearchResults = payload;
+      payload.forEach(movie => state.SearchResults.push(movie));
     }
   },
   actions: {
@@ -214,7 +213,7 @@ const movieStore = {
     searchMovie({ commit }, payload ) {
       console.log("실행");
       console.log(payload);
-      axios.post(`http://localhost:3001/movies/search`, payload, {
+      axios.post(`http://localhost:3001/movies/search?offset=${payload.offset}`, payload, {
         withCredentials: true,
       }).then((result) => {
         console.log(result.data);
