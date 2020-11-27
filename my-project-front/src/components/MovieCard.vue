@@ -1,51 +1,65 @@
 <!-- eslint-disable -->
 <template>
   <div style="margin-bottom: 20px" v-if="this.movie">
-  <v-card flat outlined>
-    <!-- <v-img 
-    class="white--text align-end" 
-    height="200px" 
-    :src="movie.img_url"
-    > -->
-      <div style="margin-left:5px">
-        <h2 style="font-size:2.5rem;display:inline">{{this.movie.id}} </h2>
-        <h2 style="font-size:1.5rem;display:inline">{{this.movie.title}}({{this.movie.pubDate}})</h2>
+    <v-card class="pt-10 mt-8" flat outlined>
+      <div class="img-card">
+        <v-img
+          v-if="movie.image"
+          :src="movie.image"
+          class="img-content"
+          max-height="80px"
+          aspect-ratio
+        ></v-img>
+        <div v-else class="noimage">no image</div>
       </div>
-    <!-- </v-img> -->
-    <v-container>
-      <router-link :to="{ name: 'Movie', params: { id: this.movie.id }}">자세히 보기</router-link>
-    <!-- <h3>{{movie.subtitle}}</h3> -->
-    <!-- <p style="font-size:0.8rem">{{mcontent}}</p> -->
-    <!-- <template v-for="(tag) in movie.tags">
-      <v-chip :key="tag" style="margin-left:5px" color=indigo text-color="white">{{tag}}</v-chip>
-    </template> -->
-    </v-container>
-    <v-divider></v-divider>
-    <v-row
-      align="center"
-      justify="end"
-    >
-      <v-card-actions
-        class="mr-2"
-       >
-        <v-btn icon color="pink" @click="likeMovie()">
-          <v-icon>{{heartIcon}}</v-icon>
-        </v-btn> 
-        <v-btn icon>
-          <v-icon>mdi-message-outline</v-icon>
-        </v-btn>
-      </v-card-actions>
-    </v-row>
-    
-  </v-card>
-     
+      <div class="ma-5">
+        <h2 style="font-size:1.3rem;display:inline">
+          {{ this.movie.title }}({{ this.movie.pubDate }})
+        </h2>
+      </div>
+      <v-divider></v-divider>
+      <v-row align="center" justify="end">
+        <router-link :to="{ name: 'Movie', params: { id: this.movie.id } }"
+          >자세히 보기</router-link
+        >
+        <v-card-actions class="mr-2">
+          <v-btn icon color="pink" @click="likeMovie()">
+            <v-icon>{{ heartIcon }}</v-icon>
+          </v-btn>
+        </v-card-actions>
+      </v-row>
+    </v-card>
   </div>
 </template>
 
+<style>
+  .img-card {
+    position: absolute;
+    top: -30px;
+    left: 20px;
+  }
+
+  .img-content {
+    border-radius: 10px;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .noimage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 120px;
+    height: 80px;
+    background-color: white;
+    color: #c9c9c9;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+  }
+</style>
 <script>
-/* eslint-disable */
-import CommentView from "./CommentView";
-export default{
+  /* eslint-disable */
+  import CommentView from "./CommentView";
+  export default {
     name: "MovieCard",
     components: {
       CommentView,
@@ -54,39 +68,46 @@ export default{
       movie: {
         type: Object,
         required: true,
-      }
+      },
     },
     data() {
       return {
-        like: 'mdi-heart-outline',
+        like: "mdi-heart-outline",
         dialog: false,
-        hashtag : "",
+        hashtag: "",
         focusTag: "blue",
-      }
+      };
     },
     methods: {
       likeMovie() {
-        if(!this.me) {  // 로그인 안되있으면 못함 !
-          if(!this.alert) this.alert = true;
+        if (!this.me) {
+          // 로그인 안되있으면 못함 !
+          if (!this.alert) this.alert = true;
           return;
         }
-        if(!this.liked){
-          this.$store.dispatch('movieStore/likeMovie',{
-            movieId: this.movie.id
-          }).then((result)=>{
-             this.like = "mdi-heart";
-          }).catch((err)=>{
-            console.error(err);
-          });
-        } else {
-          if(confirm('좋아요 취소하시겠습니까?')) {
-            this.$store.dispatch('movieStore/removeLike',{
-              movieId : this.movie.id
-            }).then((result) => {
-              console.log("좋아요 취소");
-            }).catch((err)=>{
+        if (!this.liked) {
+          this.$store
+            .dispatch("movieStore/likeMovie", {
+              movieId: this.movie.id,
+            })
+            .then((result) => {
+              this.like = "mdi-heart";
+            })
+            .catch((err) => {
               console.error(err);
             });
+        } else {
+          if (confirm("좋아요 취소하시겠습니까?")) {
+            this.$store
+              .dispatch("movieStore/removeLike", {
+                movieId: this.movie.id,
+              })
+              .then((result) => {
+                console.log("좋아요 취소");
+              })
+              .catch((err) => {
+                console.error(err);
+              });
           }
         }
       },
@@ -99,24 +120,28 @@ export default{
         return this.$store.state.userStore.me;
       },
       liked() {
-        return this.me && this.movie && this.movie.Likers.find(x => x.id === this.me.id) ? true : false;
+        return this.me &&
+          this.movie &&
+          this.movie.Likers.find((x) => x.id === this.me.id)
+          ? true
+          : false;
       },
       heartIcon() {
-        return this.liked ? 'mdi-heart' : 'mdi-heart-outline';
+        return this.liked ? "mdi-heart" : "mdi-heart-outline";
       },
       mcontent() {
-        if(this.movie.content.length > 160){
-          return this.movie.content.slice(0,160)+"...";
+        if (this.movie.content.length > 160) {
+          return this.movie.content.slice(0, 160) + "...";
         } else {
           return this.movie.content;
         }
       },
-    }
-}
+    },
+  };
 </script>
 
 <style scoped>
-.movie-tag:hover {
-  background-color: blue;
-}
+  .movie-tag:hover {
+    background-color: blue;
+  }
 </style>

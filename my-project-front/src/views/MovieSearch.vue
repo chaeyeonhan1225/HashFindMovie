@@ -35,7 +35,7 @@
             </template>
 
         </v-row>
-        <div class="more-btn" v-if="results.length % 10 === 0 && results.length >= 10" @click="searchMovie()">더 보기</div>
+        <div class="more-btn" v-if="results.length % 10 === 0 && results.length >= 10" @click="searchMoreMovie()">더 보기</div>
     </div>
 </template>
 
@@ -73,6 +73,16 @@
                     genre: this.gerne.indexOf(this.selectedGerne),
                     country: this.countryCode[this.selectedCountry],
                     offset: this.results.length + 1,
+                    search: true,
+                });
+            },
+            searchMoreMovie() {
+                this.$store.dispatch('movieStore/searchMovie', {
+                    title: this.title,
+                    genre: this.gerne.indexOf(this.selectedGerne),
+                    country: this.countryCode[this.selectedCountry],
+                    offset: this.results.length + 1,
+                    search: false,
                 });
             }
         },

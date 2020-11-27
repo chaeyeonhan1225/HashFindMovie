@@ -101,8 +101,14 @@ const movieStore = {
     },
     // 검색한 영화 정보 저장
     setResults(state, payload) {
-      payload.forEach(movie => state.SearchResults.push(movie));
+      if (payload.search) {
+        console.log(payload.search);
+        state.SearchResults = [];
+      
+      }
+      payload.movies.forEach(movie => state.SearchResults.push(movie));
     }
+    
   },
   actions: {
     loadTodayMovies({
@@ -216,8 +222,8 @@ const movieStore = {
       axios.post(`http://localhost:3001/movies/search?offset=${payload.offset}`, payload, {
         withCredentials: true,
       }).then((result) => {
-        console.log(result.data);
-        commit('setResults', result.data);
+        // console.log(result.data);
+        commit('setResults', {  movies: result.data, search: payload.search });
       }).catch((error) => {
         console.error(error);
       });

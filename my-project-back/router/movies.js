@@ -10,16 +10,23 @@ const options = {
     headers: {'X-Naver-Client-Id': client_id,"X-Naver-Client-Secret": client_secret}
 };
 
+
+// 전체 영화
+router.get('/movies', async (req, res, next) => {
+    try {
+        const movies = await db.Movie.findAll({
+        
+        });
+    } catch {
+
+    }
+});
+
+// 오늘의 영화
 router.get('/today', async (req, res, next) => {
     try {
         const movies = await db.Movie.findAll({
             include: [{
-                model: db.Comment,
-                include: [{
-                    model: db.User,
-                    attributes: ['nick', 'color'],
-                }]
-            }, {
                 model: db.User,
                 as: 'Likers',
                 attributes: ['id'],
