@@ -33,115 +33,115 @@
 </template>
 
 <style>
-  .img-card {
-    position: absolute;
-    top: -30px;
-    left: 20px;
-  }
+.img-card {
+  position: absolute;
+  top: -30px;
+  left: 20px;
+}
 
-  .img-content {
-    border-radius: 10px;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
-  }
+.img-content {
+  border-radius: 10px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
 
-  .noimage {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    width: 120px;
-    height: 80px;
-    background-color: white;
-    color: #c9c9c9;
-    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
-  }
+.noimage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  width: 120px;
+  height: 80px;
+  background-color: white;
+  color: #c9c9c9;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.3);
+}
 </style>
 <script>
-  /* eslint-disable */
-  import CommentView from "./CommentView";
-  export default {
-    name: "MovieCard",
-    components: {
-      CommentView,
+/* eslint-disable */
+import CommentView from "./CommentView";
+export default {
+  name: "MovieCard",
+  components: {
+    CommentView,
+  },
+  props: {
+    movie: {
+      type: Object,
+      required: true,
     },
-    props: {
-      movie: {
-        type: Object,
-        required: true,
-      },
-    },
-    data() {
-      return {
-        like: "mdi-heart-outline",
-        dialog: false,
-        hashtag: "",
-        focusTag: "blue",
-      };
-    },
-    methods: {
-      likeMovie() {
-        if (!this.me) {
-          // 로그인 안되있으면 못함 !
-          if (!this.alert) this.alert = true;
-          return;
-        }
-        if (!this.liked) {
+  },
+  data() {
+    return {
+      like: "mdi-heart-outline",
+      dialog: false,
+      hashtag: "",
+      focusTag: "blue",
+    };
+  },
+  methods: {
+    likeMovie() {
+      if (!this.me) {
+        // 로그인 안되있으면 못함 !
+        if (!this.alert) this.alert = true;
+        return;
+      }
+      if (!this.liked) {
+        this.$store
+          .dispatch("movieStore/likeMovie", {
+            movieId: this.movie.id,
+          })
+          .then((result) => {
+            this.like = "mdi-heart";
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } else {
+        if (confirm("좋아요 취소하시겠습니까?")) {
           this.$store
-            .dispatch("movieStore/likeMovie", {
+            .dispatch("movieStore/removeLike", {
               movieId: this.movie.id,
             })
             .then((result) => {
-              this.like = "mdi-heart";
+              console.log("좋아요 취소");
             })
             .catch((err) => {
               console.error(err);
             });
-        } else {
-          if (confirm("좋아요 취소하시겠습니까?")) {
-            this.$store
-              .dispatch("movieStore/removeLike", {
-                movieId: this.movie.id,
-              })
-              .then((result) => {
-                console.log("좋아요 취소");
-              })
-              .catch((err) => {
-                console.error(err);
-              });
-          }
         }
-      },
+      }
     },
-    created() {
-      this.dialog = false;
+  },
+  created() {
+    this.dialog = false;
+  },
+  computed: {
+    me() {
+      return this.$store.state.userStore.me;
     },
-    computed: {
-      me() {
-        return this.$store.state.userStore.me;
-      },
-      liked() {
-        return this.me &&
-          this.movie &&
-          this.movie.Likers.find((x) => x.id === this.me.id)
-          ? true
-          : false;
-      },
-      heartIcon() {
-        return this.liked ? "mdi-heart" : "mdi-heart-outline";
-      },
-      mcontent() {
-        if (this.movie.content.length > 160) {
-          return this.movie.content.slice(0, 160) + "...";
-        } else {
-          return this.movie.content;
-        }
-      },
+    liked() {
+      return this.me &&
+        this.movie &&
+        this.movie.Likers.find((x) => x.id === this.me.id)
+        ? true
+        : false;
     },
-  };
+    heartIcon() {
+      return this.liked ? "mdi-heart" : "mdi-heart-outline";
+    },
+    mcontent() {
+      if (this.movie.content.length > 160) {
+        return this.movie.content.slice(0, 160) + "...";
+      } else {
+        return this.movie.content;
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>
-  .movie-tag:hover {
-    background-color: blue;
-  }
+.movie-tag:hover {
+  background-color: blue;
+}
 </style>
